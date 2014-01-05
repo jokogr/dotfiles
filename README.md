@@ -7,8 +7,9 @@ up-to-date.
 In order to simplify and optimize the dotfiles, I prefer to keep the following
 branches:
 
-* **base** - this is the base branch that every other branch is based on
-* **master** - to be used on Linux servers
+* **base** - this is the base branch that every other branch is based on (the
+  branch with the most commits)
+* **master** - to be used on Linux servers (the mostly used branch)
 * **linux-workstation** - built on top of the *master* branch, it contains extra
   configuration for GUI apps
 * **osx** - to be used on OS X systems
@@ -17,6 +18,7 @@ branches:
 
 In order to bootstrap directly, run the following command:
 ```text
-curl -sL https://bitbucket.org/joko/dotfiles/raw/master/bootstrap.sh \
+curl -sL https://bitbucket.org/joko/dotfiles/raw/base/bootstrap.sh \
 | /bin/bash -ex
 ```
+Follow the instructions.
