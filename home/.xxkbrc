@@ -1,0 +1,20 @@
+XXkb.image.path: /home/joko/.config/xxkb/
+XXkb.mainwindow.type:  tray
+XXkb.group.base: 1
+XXkb.group.alt: 2
+XXkb.mainwindow.enable:  yes
+XXkb.mainwindow.image.1: us.xpm
+XXkb.mainwindow.image.2: el.xpm
+XXkb.mainwindow.image.3:
+XXkb.mainwindow.image.4:
+XXkb.mainwindow.appicon:  yes
+XXkb.mainwindow.geometry:  16x16
+XXkb.mainwindow.in_tray:  GNOME2
+XXkb.button.enable:  no
+XXkb.controls.add_when_start: no
+XXkb.controls.add_when_create: yes
+XXkb.controls.add_when_change: yes
+XXkb.controls.focusout: no
+XXkb.mainwindow.xpm.1: us.xpm
+XXkb.mainwindow.xpm.2: greek.xpm
+XXkb.mainwindow.label.enable: no

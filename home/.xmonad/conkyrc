@@ -1,0 +1,10 @@
+background no
+out_to_console yes
+out_to_x no
+update_interval 1
+total_run_times 0
+
+TEXT
+${freq_g} \
+${hwmon 0 temp 1} \
+${hwmon 1 temp 1}
