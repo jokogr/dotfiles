@@ -1,0 +1,28 @@
+[ui]
+username = Ioannis Koutras <ioannis.koutras@gmail.com>
+ignore = ~/.cvsignore
+ssh = ssh -C
+
+[pager]
+pager = LESS='FSRX' less
+
+[extensions]
+color =
+pager =
+graphlog =
+mq =
+hgext.fetch =
+record =
+purge =
+rebase =
+largefiles =
+
+[extdiff]
+cmd.kdiff3 =
+
+[merge-tools]
+kdiff3.args = $base $local $other -o $output
+
+[color]
+status.ignored = white bold
+qseries.unapplied = white bold

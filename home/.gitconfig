@@ -1,0 +1,16 @@
+[user]
+	email = ioannis.koutras@gmail.com
+	name = Ioannis Koutras
+[color]
+	ui = auto
+[sendemail]
+	from = Ioannis Koutras <ioannis.koutras@gmail.com>
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = ioannis.koutras@gmail.com
+	smtpserverport = 587
+	chainreplyto = false
+[push]
+	default = simple
+[core]
+	excludesfile = ~/.cvsignore
