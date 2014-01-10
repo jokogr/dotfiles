@@ -24,7 +24,9 @@ PROMPT='%{$fg[green]%}%n@%m%{$reset_color%} %{$fg[blue]%}%~%{$reset_color%}\
 %# '
 
 # History
-HISTSIZE=100
+HISTSIZE=200
+HISTFILE=~/.zsh_history
+SAVEHIST=200
 setopt histignoredups histreduceblanks incappendhistory
 
 # Misc
