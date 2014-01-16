@@ -1,6 +1,8 @@
 [user]
 	email = ioannis.koutras@gmail.com
 	name = Ioannis Koutras
+[alias]
+	lg = log --graph --all --decorate --oneline
 [color]
 	ui = auto
 [sendemail]
