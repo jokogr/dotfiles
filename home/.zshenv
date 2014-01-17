@@ -1,4 +1,4 @@
-#! sh
+#!/bin/sh
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -37,4 +37,11 @@ if [ -d "$HOME/.node_modules" ]; then
   export NPM_CONFIG_PREFIX
 fi
 
+# set up SSH agent socket symlink
+export SSH_AUTH_SOCK_LINK="/tmp/ssh-$USER/agent"
+if ! [ -r $(readlink -m $SSH_AUTH_SOCK_LINK) ] && [ -r $SSH_AUTH_SOCK ]; then
+	mkdir -p "$(dirname $SSH_AUTH_SOCK_LINK)" &&
+	chmod go= "$(dirname $SSH_AUTH_SOCK_LINK)" &&
+	ln -sfn $SSH_AUTH_SOCK $SSH_AUTH_SOCK_LINK
+fi
 
