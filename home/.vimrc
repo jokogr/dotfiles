@@ -42,6 +42,7 @@ call plug#end()
 filetype plugin indent on
 
 syntax on
+set guifont=Source\ Code\ Pro\ for\ Powerline\ Regular\ 13
 colorscheme hybrid
 set background=dark
 
