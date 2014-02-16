@@ -28,4 +28,4 @@ nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>p :CtrlP<CR>
 nmap <leader>P :CtrlPClearCache<CR>:CtrlP<CR>
 
-autocmd FileType c setlocal cindent softtabstop=4 sw=4 tabstop=4 et
+autocmd FileType c,cpp setlocal cindent softtabstop=4 sw=4 tabstop=4 et
