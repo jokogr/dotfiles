@@ -16,13 +16,13 @@ echo "2. Linux Workstation"
 echo "3. OSX"
 echo -n "Please enter your choice: "
 read swo
-case $swo in
-	"2")
+case "$swo" in
+	2)
 		homeshick cd dotfiles
 		git checkout linux-workstation
 		cd -
 		;;
-	"3")
+	3)
 		homeshick cd dotfiles
 		git checkout osx
 		cd -
