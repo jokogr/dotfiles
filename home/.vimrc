@@ -28,4 +28,7 @@ nmap <leader>b :CtrlPBuffer<CR>
 nmap <leader>p :CtrlP<CR>
 nmap <leader>P :CtrlPClearCache<CR>:CtrlP<CR>
 
+" Allow saving of files as sudo when I forgot to start vim using sudo.
+cmap w!! w !sudo tee > /dev/null %
+
 autocmd FileType c,cpp setlocal cindent softtabstop=4 sw=4 tabstop=4 et tw=80
