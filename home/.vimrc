@@ -33,3 +33,4 @@ nmap <leader>P :CtrlPClearCache<CR>:CtrlP<CR>
 cmap w!! w !sudo tee > /dev/null %
 
 autocmd FileType c,cpp setlocal cindent softtabstop=4 sw=4 tabstop=4 et tw=80
+autocmd FileType html setlocal sts=2 sw=2 ts=2 noet
