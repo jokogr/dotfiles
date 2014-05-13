@@ -10,6 +10,7 @@ Bundle 'bling/vim-airline'
 Bundle 'kien/ctrlp.vim'
 Bundle 'ervandew/supertab'
 Bundle 'tpope/vim-commentary'
+Bundle 'LaTeX-Box-Team/LaTeX-Box'
 
 filetype plugin indent on
 
