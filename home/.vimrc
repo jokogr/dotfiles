@@ -1,17 +1,18 @@
 set nocompatible
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-Bundle 'gmarik/vundle'
-Bundle 'w0ng/vim-hybrid'
-Bundle 'bling/vim-airline'
-Bundle 'kien/ctrlp.vim'
-Bundle 'ervandew/supertab'
-Bundle 'tpope/vim-commentary'
-Bundle 'LaTeX-Box-Team/LaTeX-Box'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'w0ng/vim-hybrid'
+Plugin 'bling/vim-airline'
+Plugin 'kien/ctrlp.vim'
+Plugin 'ervandew/supertab'
+Plugin 'tpope/vim-commentary'
+Plugin 'LaTeX-Box-Team/LaTeX-Box'
 
+call vundle#end()
 filetype plugin indent on
 
 syntax on
