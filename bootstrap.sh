@@ -20,7 +20,7 @@ echo "1. Linux Server (default)"
 echo "2. Linux Workstation"
 echo "3. OSX"
 echo -n "Please enter your choice: "
-read swo
+read swo </dev/tty
 case "$swo" in
 	2)
 		git checkout linux-workstation
