@@ -38,5 +38,8 @@ homeshick link --force
 # Change the dotfiles repository URL to SSH for future edits
 homeshick cd dotfiles
 git remote set-url origin git@bitbucket.org:joko/dotfiles.git
+
+# Update the vim plugins
 vim +PluginInstall +qall
+
 cd -
