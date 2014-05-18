@@ -6,5 +6,4 @@ total_run_times 0
 
 TEXT
 ${freq_g} \
-${hwmon 0 temp 1} \
-${hwmon 1 temp 1}
+${hwmon 0 temp 1}

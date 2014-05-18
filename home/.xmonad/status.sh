@@ -7,13 +7,8 @@ printCPUInfo() {
   return
 }
 
-printBattery() {
-  echo -n "$(cat /sys/class/power_supply/BAT0/capacity)%"
-  return
-}
-
 printTempInfo() {
-  echo -n "$CPUTemp° / $GPUTemp°"
+  echo -n "$CPUTemp° / $(aticonfig --odgt | tail -n 1 | awk '{ print $(NF-1) }')°"
 }
 
 printDate() {
@@ -32,8 +27,6 @@ printBar() {
     printCPUInfo
     printSpace
     printTempInfo
-    printSpace
-    printBattery
     printSpace
     printDate
     echo
