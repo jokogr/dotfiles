@@ -15,6 +15,9 @@ homeshick cd dotfiles
 git submodule init
 git submodule update
 
+if [ "$#" -eq 1 ]; then
+	swo=$1
+else
 echo "Where are you installing me?"
 echo "1. Linux Server (default)"
 echo "2. Linux Workstation"
@@ -31,6 +34,7 @@ case "$swo" in
 	*)
 		;;
 esac
+fi
 
 cd -
 homeshick link --force
