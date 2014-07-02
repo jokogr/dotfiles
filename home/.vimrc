@@ -11,6 +11,9 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'ervandew/supertab'
 Plugin 'tpope/vim-commentary'
 Plugin 'LaTeX-Box-Team/LaTeX-Box'
+Plugin 'mileszs/ack.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
 
 call vundle#end()
 filetype plugin indent on
@@ -23,6 +26,8 @@ set mouse=a
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+
+let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " keyboard shortcuts
 let mapleader = ','
