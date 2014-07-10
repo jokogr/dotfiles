@@ -1,0 +1,10 @@
+"dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.set_layout uint32:0"
+  Mod1+Shift + 1
+
+# el layout
+"dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.set_layout uint32:1"
+  Mod1+Shift + 2
+
+# Be careful, alt + space should not be configured in X.org or setxkb
+"dbus-send --dest=ru.gentoo.KbddService /ru/gentoo/KbddService ru.gentoo.kbdd.prev_layout"
+  Mod1 + space

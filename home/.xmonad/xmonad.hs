@@ -113,7 +113,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_f     ), spawn "chromium --incognito")
     , ((modm              , xK_o     ), spawn "xdotool keyup super&")
     , ((modm              , xK_q     ),
-        spawn "killall status.sh dzen2 xxkb stalonetray; xmonad --restart")
+        spawn "killall status.sh dzen2 stalonetray; xmonad --restart")
     , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master toggle")
     ]
     ++
@@ -307,7 +307,8 @@ myStartupHook width = do
     spawnOnce "nitrogen --restore"
     spawn $ myTray width
     spawn $ myStatusBar width
-    spawn "xxkb"
+    spawnOnce "xbindkeys"
+    spawnOnce "kbdd"
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
