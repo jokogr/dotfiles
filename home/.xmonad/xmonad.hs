@@ -286,6 +286,7 @@ myScratchPad = scratchpadSpawnActionCustom "urxvtc -name scratchpad"
 myManageHook :: ManageHook
 myManageHook = composeAll . concat $
     [ [className =? "stalonetray"    --> doIgnore ]
+    , [title     =? "Clip to Evernote" --> doIgnore ]
     , [className =? c --> doShift (myWorkspaces !! 0) | c <- myWebS ]
     , [className =? "MPlayer"        --> doFloat  ]
     , [className =? "Gimp"           --> doFloat  ]
@@ -296,7 +297,8 @@ myManageHook = composeAll . concat $
     , [isFullscreen --> doFullFloat]
     ] where
         myWebS = ["Chromium","Firefox"]
-        myFloatAS = ["sun-awt-X11-XFramePeer","MATLAB"]
+	myFloatAS = ["sun-awt-X11-XFramePeer", "MATLAB", "Dialog",
+		    "file_progress"]
 
 myStartupHook :: Int -> X ()
 myStartupHook width = do
