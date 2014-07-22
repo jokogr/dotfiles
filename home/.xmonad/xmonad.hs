@@ -267,7 +267,7 @@ myLogHook h = dynamicLogWithPP $ defaultPP
     { ppOutput = hPutStrLn h
     , ppSort = fmap (namedScratchpadFilterOutWorkspace .) (ppSort defaultPP)
     , ppCurrent = wrapTextBox colorBlack colorBlue colorBlack
-    , ppVisible = wrapTextBox colorBlack colorGrayAlt colorBlack .
+    , ppVisible = wrapTextBox colorBlack colorBlueAlt colorBlack .
         wrapClickWorkspace
     , ppHidden = wrapTextBox colorWhiteAlt colorGrayAlt colorBlack .
         wrapClickWorkspace
