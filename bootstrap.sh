@@ -4,11 +4,11 @@
 # This is a bootstrap script which installs homeshick and my dotfiles to the
 # current account.
 
-git clone https://github.com/andsens/homeshick.git \
+git clone https://git.joko.gr/joko/homeshick.git \
   $HOME/.homesick/repos/homeshick
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 
-homeshick --batch clone https://bitbucket.org/joko/dotfiles
+homeshick --batch clone https://git.joko.gr/joko/dotfiles.git
 
 # Initialize vundle
 homeshick cd dotfiles
@@ -41,7 +41,7 @@ homeshick link --force
 
 # Change the dotfiles repository URL to SSH for future edits
 homeshick cd dotfiles
-git remote set-url origin git@bitbucket.org:joko/dotfiles.git
+git remote set-url origin gitlab@git.joko.gr:joko/dotfiles.git
 
 # Update the vim plugins
 vim +PluginInstall +qall
