@@ -298,7 +298,7 @@ myManageHook = composeAll . concat $
     ] where
         myWebS = ["Chromium","Firefox"]
 	myFloatAS = ["sun-awt-X11-XFramePeer", "MATLAB", "Dialog",
-		    "file_progress"]
+		    "file_progress", "vncviewer"]
 
 myStartupHook :: Int -> X ()
 myStartupHook width = do
