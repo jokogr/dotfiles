@@ -23,6 +23,7 @@ import XMonad.Util.Scratchpad
 import XMonad.Util.SpawnOnce
 import Graphics.X11.ExtraTypes.XF86
 
+import Data.Char
 import Data.Monoid
 import Data.List
 import GHC.IO.Handle
@@ -30,6 +31,12 @@ import System.Exit
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+
+splitString :: String -> [String]
+splitString s = case dropWhile Data.Char.isSpace s of
+    "" -> []
+    s' -> w : splitString s''
+        where (w, s'') = break Data.Char.isSpace s'
 
 myIconPath = "/home/joko/.xmonad/"
 xRes = 1920
@@ -212,16 +219,17 @@ statusBarWidth = 290
 commonBarSettings :: String
 commonBarSettings = "-y '0' -h '16' -fn '" ++ myDzenFont ++ "' -bg '"
     ++ colorBlack ++ "' -fg '" ++ colorWhiteAlt ++ "' -p -e 'onstart=lower'"
-myWorkspaceBar, myStatusBar, myTray :: Int -> String
-myWorkspaceBar width = "dzen2 -x '0' -w '" ++ show (width - statusBarWidth)
-    ++ "' -ta l " ++ commonBarSettings
-myStatusBar width = "DZEN_FG2=" ++ colorGray
-    ++ " /home/joko/.xmonad/status.sh | dzen2 -x '" ++ show (width
+myWorkspaceBar, myStatusBar, myTray :: Int -> Int -> String
+myWorkspaceBar x width = "dzen2 -x '" ++ show x ++ "' -w '" ++
+    show (width - statusBarWidth) ++ "' -ta l " ++ commonBarSettings
+myStatusBar x width = "DZEN_FG2=" ++ colorGray
+    ++ " /home/joko/.xmonad/status.sh | dzen2 -x '" ++ show (x + width
     - statusBarWidth) ++ "' -w '" ++ show(statusBarWidth) ++ "' -ta r "
     ++ commonBarSettings
-myTray width = "stalonetray --grow-gravity NE --icon-gravity NE --icon-size 16"
-    ++ " --max-geometry 0x1 --window-layer top --background '" ++ colorBlack
-    ++ "' --geometry 1x1+" ++ show (width - statusBarWidth - 20)
+myTray x width = "stalonetray --grow-gravity NE --icon-gravity NE"
+    ++ " --icon-size 16 --max-geometry 0x1 --window-layer top --background '"
+    ++ colorBlack ++ "' --geometry 1x1+"
+    ++ show (x + width - statusBarWidth - 20)
 
 data TABBED = TABBED deriving (Read, Show, Eq, Typeable)
 instance Transformer TABBED Window where
@@ -300,15 +308,15 @@ myManageHook = composeAll . concat $
 	myFloatAS = ["sun-awt-X11-XFramePeer", "MATLAB", "Dialog",
 		    "file_progress", "vncviewer"]
 
-myStartupHook :: Int -> X ()
-myStartupHook width = do
+myStartupHook :: Int -> Int -> X ()
+myStartupHook x width = do
     spawnOnce "wmname LG3D"
     spawnOnce "xset +dpms"
     spawnOnce "xset dpms 0 0 300"
     spawnOnce "xrdb -merge ~/.Xresources"
     spawnOnce "nitrogen --restore"
-    spawn $ myTray width
-    spawn $ myStatusBar width
+    spawn $ myTray x width
+    spawn $ myStatusBar x width
     spawnOnce "xbindkeys"
     spawnOnce "kbdd"
     spawnOnce "urxvtd -q -o -f"
@@ -317,10 +325,12 @@ myStartupHook width = do
 
 main :: IO ()
 main = do
-    mainDisplayWidthS <-
+    mainDisplayInfoS <-
         runProcessWithInput "/home/joko/.xmonad/getMainScreenWidth.sh" [] []
-    let mainDisplayWidth = read mainDisplayWidthS :: Int
-    workspaceBar <- spawnPipe $ myWorkspaceBar mainDisplayWidth
+    let mainDisplayS = splitString mainDisplayInfoS
+    let mainDisplayX = read (mainDisplayS !! 0) :: Int
+    let mainDisplayWidth = read (mainDisplayS !! 1) :: Int
+    workspaceBar <- spawnPipe $ myWorkspaceBar mainDisplayX mainDisplayWidth
     xmonad $ ewmh defaultConfig
         { terminal           = "urxvtc"
         , focusFollowsMouse  = myFocusFollowsMouse
@@ -336,5 +346,5 @@ main = do
         , manageHook         = myManageHook <+> manageScratchPad
         , handleEventHook    = myEventHook
         , logHook            = myLogHook workspaceBar
-        , startupHook        = myStartupHook mainDisplayWidth
+        , startupHook        = myStartupHook mainDisplayX mainDisplayWidth
         }
