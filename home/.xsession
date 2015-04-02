@@ -7,6 +7,8 @@ if [ -x /usr/bin/ssh-agent -a -z "$SSH_AUTH_SOCK" ]; then
   sshagent="/usr/bin/ssh-agent --"
 fi
 
+[ ! -x "`which pulseaudio 2>/dev/null`" ] || pulseaudio --start
+
 for wm in xmonad openbox xterm; do
   [ -x "`which $wm 2>/dev/null`" ] && exec $sshagent $wm
 done
