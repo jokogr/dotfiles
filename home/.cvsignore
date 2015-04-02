@@ -3,6 +3,11 @@ syntax: glob
 # Linux
 *~
 
+# Intellij
+*.iml
+.idea/
+/out/
+
 # vim
 [._]*.s[a-w][a-z]
 [._]s[a-w][a-z]
