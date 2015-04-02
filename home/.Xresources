@@ -10,7 +10,7 @@ Xft.rgba: rgb
 
 URxvt.scrollBar: false
 
-*font: xft:Inconsolata:size=11
+*font: xft:Source Code Pro for Powerline:style=Regular:size=11
 
 URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/firefox
