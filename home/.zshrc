@@ -86,3 +86,5 @@ if (( ${+terminfo[smkx]} )) && (( ${+terminfo[rmkx]} )); then
     zle -N zle-line-init
     zle -N zle-line-finish
 fi
+
+test -f "$HOME/.zshrc.local" && . "$HOME/.zshrc.local"
