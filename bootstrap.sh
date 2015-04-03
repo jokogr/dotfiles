@@ -41,7 +41,7 @@ homeshick link --force
 
 # Change the dotfiles repository URL to SSH for future edits
 homeshick cd dotfiles
-git remote set-url origin gitlab@git.joko.gr:joko/dotfiles.git
+git remote set-url origin ssh://git@git.joko.gr:10022/joko/dotfiles.git
 
 # Update the vim plugins
 vim +PluginInstall +qall
