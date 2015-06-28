@@ -1,5 +1,5 @@
 {-# LANGUAGE TypeSynonymInstances, MultiParamTypeClasses, DeriveDataTypeable,
-    NoMonomorphismRestriction #-}
+    NoMonomorphismRestriction, FlexibleContexts #-}
 
 import XMonad
 import XMonad.Hooks.DynamicLog
