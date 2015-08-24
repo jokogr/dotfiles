@@ -46,6 +46,17 @@ zstyle :compinstall filename ~/.zshrc
 autoload -Uz compinit
 compinit
 
+compdef _joko joko
+
+_joko() {
+  local cmd=$(basename $words[1])
+  if [[ $CURRENT = 2 ]]; then
+    local tmp
+    tmp=($(grep '^  [a-z-]*[|)]' "$HOME/bin/$cmd" | sed -e 's/).*//' | tr '|' ' '))
+    _describe -t commands "${words[1]} command" tmp --
+  fi
+}
+
 alias gst='git status'
 
 # Keyboard and keybindings
