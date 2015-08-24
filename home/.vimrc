@@ -1,21 +1,19 @@
 set nocompatible
-filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-Plugin 'https://git.joko.gr/joko/vundle-vim.git'
-Plugin 'w0ng/vim-hybrid'
-Plugin 'bling/vim-airline'
-Plugin 'kien/ctrlp.vim'
-Plugin 'ervandew/supertab'
-Plugin 'tpope/vim-commentary'
-Plugin 'LaTeX-Box-Team/LaTeX-Box'
-Plugin 'mileszs/ack.vim'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-repeat'
+Plug 'w0ng/vim-hybrid'
+Plug 'bling/vim-airline'
+Plug 'kien/ctrlp.vim'
+Plug 'ervandew/supertab'
+Plug 'tpope/vim-commentary'
+Plug 'LaTeX-Box-Team/LaTeX-Box'
+Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
 
-call vundle#end()
+call plug#end()
+
 filetype plugin indent on
 
 syntax on

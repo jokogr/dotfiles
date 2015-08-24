@@ -12,8 +12,6 @@ homeshick --batch clone https://git.joko.gr/joko/dotfiles.git
 
 # Initialize vundle
 homeshick cd dotfiles
-git submodule init
-git submodule update
 
 if [ "$#" -eq 1 ]; then
 	swo=$1
@@ -43,7 +41,9 @@ homeshick link --force
 homeshick cd dotfiles
 git remote set-url origin ssh://git@git.joko.gr:10022/joko/dotfiles.git
 
-# Update the vim plugins
-vim +PluginInstall +qall
+# Install vim-plug
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+	https://git.joko.gr/joko/vim-plug/raw/master/plug.vim
+vim +PlugInstall +qall
 
 cd -
