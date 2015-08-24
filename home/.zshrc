@@ -46,6 +46,8 @@ zstyle :compinstall filename ~/.zshrc
 autoload -Uz compinit
 compinit
 
+alias gst='git status'
+
 # Keyboard and keybindings
 bindkey -v
 bindkey "^R" history-incremental-search-backward
