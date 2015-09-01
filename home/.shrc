@@ -1,0 +1,25 @@
+#! sh
+
+if [ -n "$PS1" ]; then
+  if [ -x "`which vim 2>/dev/null`" ]; then
+    VISUAL=vim
+  elif [ -x "`which vi 2>/dev/null`" ]; then
+    VISUAL=vi
+  fi
+  EDITOR="$VISUAL"
+  [ ! -x "`which less 2>/dev/null`" ] || PAGER=less
+  LESS="FRX#10"
+
+  alias ll='ls -l'
+  alias cp='cp -i'
+  alias mv='mv -i'
+
+  alias j='jobs'
+
+  alias gst='git status'
+
+  [ "$VISUAL" != vim ] || alias vi='vim'
+
+  export VISUAL EDITOR PAGER LESS
+
+fi

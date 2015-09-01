@@ -1,6 +1,8 @@
 # ~/.zshrc
 # vim:set et sw=2:
 
+. "$HOME/.shrc"
+
 # Prompt
 autoload -Uz colors && colors
 
@@ -56,8 +58,6 @@ _joko() {
     _describe -t commands "${words[1]} command" tmp --
   fi
 }
-
-alias gst='git status'
 
 # Keyboard and keybindings
 bindkey -v
