@@ -1,5 +1,14 @@
 #! sh
 
+for dir in /usr/local/bin "$HOME/bin"; do
+  if [ -d "$dir" ]; then
+    PATH="""${dir}:`echo "$PATH"|sed -e "s#${dir}:##"`"
+  fi
+done
+
+unset dir
+export PATH
+
 if [ -n "$PS1" ]; then
   if [ -x "`which vim 2>/dev/null`" ]; then
     VISUAL=vim
