@@ -14,6 +14,7 @@ case "$1" in
     homeshick cd dotfiles
     git pull
     cd -
+    homeshick link --force
     vim +PlugUpgrade +qall
     vim +PlugUpdate +qall
     ;;
