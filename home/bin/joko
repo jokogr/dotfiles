@@ -10,7 +10,14 @@ case "$1" in
 
   update)
     source "$HOME/.homesick/repos/homeshick/homeshick.sh"
+    homeshick cd dotfiles
+    previous_xmonad_commit=`git log -n 1 -- home/.xmonad/xmonad.hs | awk 'NR==1{print $2}'`
     homeshick pull
+    current_xmonad_commit=`git log -n 1 -- home/.xmonad/xmonad.hs | awk 'NR==1{print $2}'`
+    if [ "$previous_xmonad_commit" != "$current_xmonad_commit" ]; then
+      xmonad --recompile && killall status.sh dzen2 stalonetray; xmonad --restart
+    fi
+    cd -
     homeshick link --force
     if inpath nvim; then
       vim=nvim
