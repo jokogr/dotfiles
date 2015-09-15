@@ -305,7 +305,7 @@ myManageHook = composeAll . concat $
     , [isFullscreen --> doFullFloat]
     ] where
         myWebS = ["Chromium","Firefox"]
-	myFloatAS = ["sun-awt-X11-XFramePeer", "MATLAB", "Dialog",
+	myFloatAS = ["sun-awt-X11-XDialogPeer", "MATLAB", "Dialog",
 		    "file_progress", "vncviewer"]
 
 myStartupHook :: Int -> Int -> X ()
