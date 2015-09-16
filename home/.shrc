@@ -6,8 +6,22 @@ for dir in /usr/local/bin "$HOME/bin"; do
   fi
 done
 
+for dir in "$HOME/.node_modules/bin"; do
+  if [ -d "$dir" ]; then
+    case ":$PATH:" in
+      *:"$dir":*) ;;
+      *) PATH="$PATH:$dir" ;;
+    esac
+  fi
+done
+
 unset dir
 export PATH
+
+if [ -d "$HOME/.node_modules" ]; then
+  NPM_CONFIG_PREFIX="$HOME/.node_modules"
+  export NPM_CONFIG_PREFIX
+fi
 
 if [ -n "$PS1" ]; then
   if [ -x "`which vim 2>/dev/null`" ]; then
