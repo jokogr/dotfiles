@@ -1,5 +1,8 @@
 #! sh
 
+ENV="$HOME/.shrc"
+export ENV
+
 for dir in /usr/local/bin "$HOME/bin"; do
   if [ -d "$dir" ]; then
     PATH="""${dir}:`echo "$PATH"|sed -e "s#${dir}:##"`"
