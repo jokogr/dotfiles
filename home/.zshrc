@@ -43,6 +43,7 @@ fpath+=$HOME/.homesick/repos/homeshick/completions
 zstyle ':completion:*' menu select
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*:(rm|vimdiff):*' ignore-line yes
 zstyle :compinstall filename ~/.zshrc
 
 autoload -Uz compinit
