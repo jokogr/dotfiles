@@ -11,6 +11,9 @@ Plug 'LaTeX-Box-Team/LaTeX-Box'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'vim-pandoc/vim-pandoc'
+Plug 'vim-pandoc/vim-pandoc-after'
+Plug 'vim-pandoc/vim-pandoc-syntax'
 
 call plug#end()
 
@@ -27,9 +30,15 @@ let g:airline#extensions#tabline#enabled = 1
 
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
+" LaTeX-BoX options
+
 let g:tex_flavor='latex'
 let g:LatexBox_latexmk_options
                         \ = "-pdflatex='pdflatex -synctex=1 \%O \%S'"
+
+" vim-pandoc options
+let g:pandoc#after#modules#enabled = ["supertab"]
+let g:pandoc#formatting#mode = "hA"
 
 " keyboard shortcuts
 let mapleader = ','
@@ -42,3 +51,4 @@ cmap w!! w !sudo tee > /dev/null %
 
 autocmd FileType c,cpp setlocal cindent softtabstop=4 sw=4 tabstop=4 et tw=80
 autocmd FileType html,tex setlocal sts=2 sw=2 ts=2 noet
+autocmd FileType pandoc setlocal tw=79
