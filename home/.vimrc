@@ -4,7 +4,8 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'w0ng/vim-hybrid'
 Plug 'bling/vim-airline'
-Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install --bin' }
+Plug 'junegunn/fzf.vim'
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'
 Plug 'LaTeX-Box-Team/LaTeX-Box'
@@ -42,9 +43,8 @@ let g:pandoc#formatting#mode = "hA"
 
 " keyboard shortcuts
 let mapleader = ','
-nmap <leader>b :CtrlPBuffer<CR>
-nmap <leader>p :CtrlP<CR>
-nmap <leader>P :CtrlPClearCache<CR>:CtrlP<CR>
+nmap <leader>b :Buffers<CR>
+nmap <leader>f :Files<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
