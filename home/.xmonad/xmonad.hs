@@ -322,6 +322,7 @@ myStartupHook x width = do
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
+    spawnOnce "xcape -e 'Control_L=Escape'"
 
 main :: IO ()
 main = do
