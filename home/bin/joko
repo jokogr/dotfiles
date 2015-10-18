@@ -8,12 +8,7 @@ case "$1" in
 
   update)
     source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-    homeshick cd homeshick
-    git pull
-    cd -
-    homeshick cd dotfiles
-    git pull
-    cd -
+    homeshick pull
     homeshick link --force
     vim +PlugUpgrade +qall
     vim +PlugUpdate +qall
