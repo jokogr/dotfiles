@@ -3,6 +3,8 @@
 
 xsetroot -cursor_name left_ptr
 
+setxkbmap "us,gr" -option terminate:ctrl_alt_bksp,grp:alt_space_toggle
+
 if [ -x /usr/bin/ssh-agent -a -z "$SSH_AUTH_SOCK" ]; then
   sshagent="/usr/bin/ssh-agent --"
 fi
