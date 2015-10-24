@@ -318,12 +318,9 @@ myStartupHook x width = do
     spawnOnce "nitrogen --restore"
     spawn $ myTray x width
     spawn $ myStatusBar x width
-    spawnOnce "xbindkeys"
-    spawnOnce "kbdd"
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
-    spawnOnce "xcape -e 'Control_L=Escape'"
 
 main :: IO ()
 main = do
