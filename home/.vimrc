@@ -12,6 +12,7 @@ Plug 'LaTeX-Box-Team/LaTeX-Box'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
+Plug 'junegunn/vim-easy-align'
 Plug 'vim-pandoc/vim-pandoc'
 Plug 'vim-pandoc/vim-pandoc-after'
 Plug 'vim-pandoc/vim-pandoc-syntax'
@@ -38,6 +39,10 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:tex_flavor='latex'
 let g:LatexBox_latexmk_options
                         \ = "-pdflatex='pdflatex -synctex=1 \%O \%S'"
+
+" vim-easy-align options
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " vim-pandoc options
 let g:pandoc#after#modules#enabled = ["supertab"]
