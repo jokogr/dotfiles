@@ -4,7 +4,7 @@
 # This is a bootstrap script which installs homeshick and my dotfiles to the
 # current account.
 
-git clone https://git.joko.gr/joko/homeshick.git \
+git clone git://github.com/andsens/homeshick.git \
   $HOME/.homesick/repos/homeshick
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 
@@ -43,7 +43,7 @@ git remote set-url origin ssh://git@git.joko.gr:10022/joko/dotfiles.git
 
 # Install vim-plug
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-	https://git.joko.gr/joko/vim-plug/raw/master/plug.vim
+	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim +PlugInstall +qall
 
 cd -
