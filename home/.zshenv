@@ -1,5 +1,12 @@
 #! sh
 
+if [ -r "$HOME/.env.local" ]; then
+  . "$HOME/.env.local"
+  vars=`awk -F= '/^[A-Z].*=/ { print $1 }' "$HOME/.env.local"`
+  [ -z "$vars" ] || eval "export $vars"
+fi
+unset vars
+
 ENV="$HOME/.shrc"
 BASH_ENV="$HOME/.zshenv"
 export ENV BASH_ENV
