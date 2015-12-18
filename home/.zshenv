@@ -17,7 +17,7 @@ for dir in /usr/local/bin "$HOME/bin"; do
   fi
 done
 
-for dir in "$HOME/.node_modules/bin"; do
+for dir in "$HOME/.node_modules/bin" "$HOME/.fzf/bin"; do
   if [ -d "$dir" ]; then
     case ":$PATH:" in
       *:"$dir":*) ;;
