@@ -8,7 +8,7 @@ printCPUInfo() {
 }
 
 printTempInfo() {
-  echo -n "$CPUTemp° / $(aticonfig --odgt | tail -n 1 | awk '{ print $(NF-1) }')°"
+  echo -n "$CPUTemp°"
 }
 
 printDate() {
@@ -23,7 +23,7 @@ printSpace() {
 
 printBar() {
   while true; do
-    read CPUFreq CPUTemp GPUTemp
+    read CPUFreq CPUTemp
     printCPUInfo
     printSpace
     printTempInfo
