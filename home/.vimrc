@@ -13,9 +13,7 @@ Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align'
-Plug 'vim-pandoc/vim-pandoc'
-Plug 'vim-pandoc/vim-pandoc-after'
-Plug 'vim-pandoc/vim-pandoc-syntax'
+Plug 'plasticboy/vim-markdown'
 Plug 'junegunn/goyo.vim'
 
 call plug#end()
@@ -32,6 +30,8 @@ set mouse=a
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 
+set foldlevelstart=99
+
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " LaTeX-BoX options
@@ -44,9 +44,8 @@ let g:LatexBox_latexmk_options
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
-" vim-pandoc options
-let g:pandoc#after#modules#enabled = ["supertab"]
-let g:pandoc#formatting#mode = "hA"
+" vim-markdown options
+let g:vim_markdown_initial_foldlevel = &foldlevelstart
 
 " keyboard shortcuts
 let mapleader = ','
@@ -58,7 +57,6 @@ cmap w!! w !sudo tee > /dev/null %
 
 autocmd FileType c,cpp setlocal cindent softtabstop=4 sw=4 tabstop=4 et tw=80
 autocmd FileType html,tex setlocal sts=2 sw=2 ts=2 noet
-autocmd FileType pandoc setlocal tw=79
 
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
