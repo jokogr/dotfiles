@@ -23,7 +23,11 @@ filetype plugin indent on
 syntax on
 colorscheme hybrid
 set background=dark
-set colorcolumn=+1
+
+set textwidth=0
+if exists('&colorcolumn')
+  set colorcolumn=80
+endif
 
 set mouse=a
 
