@@ -16,6 +16,13 @@ Plug 'junegunn/vim-easy-align'
 Plug 'plasticboy/vim-markdown'
 Plug 'junegunn/goyo.vim'
 
+" Git
+Plug 'tpope/vim-fugitive'
+Plug 'gregsexton/gitv', { 'on': 'Gitv' }
+if v:version >= 703
+  Plug 'mhinz/vim-signify'
+endif
+
 call plug#end()
 
 filetype plugin indent on
