@@ -162,7 +162,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
-myEventHook = handleEventHook defaultConfig <+> fullscreenEventHook
+myEventHook = handleEventHook defaultConfig <+> fullscreenEventHook <+> docksEventHook
 
 myWorkspaces :: [WorkspaceId]
 myWorkspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9"]
