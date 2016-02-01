@@ -48,6 +48,16 @@ set shiftwidth=2
 set expandtab smarttab
 set foldlevelstart=99
 
+set formatoptions+=1
+if has('patch-7.3.541')
+  set formatoptions+=j
+endif
+if has('patch-7.4.338')
+  let &showbreak = '↳ '
+  set breakindent
+  set breakindentopt=sbr
+endif
+
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " LaTeX-BoX options
