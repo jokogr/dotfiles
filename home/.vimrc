@@ -3,7 +3,6 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 
 Plug 'w0ng/vim-hybrid'
-Plug 'bling/vim-airline'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'ervandew/supertab'
@@ -37,9 +36,6 @@ if exists('&colorcolumn')
 endif
 
 set mouse=a
-
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
 
 set autoindent
 set smartindent
