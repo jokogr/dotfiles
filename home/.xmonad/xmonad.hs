@@ -23,11 +23,15 @@ import XMonad.Util.Scratchpad
 import XMonad.Util.SpawnOnce
 import Graphics.X11.ExtraTypes.XF86
 
+import Control.Monad.Trans (lift)
+import Control.Monad.Trans.Maybe
 import Data.Char
 import Data.Monoid
 import Data.List
 import GHC.IO.Handle
 import System.Exit
+
+import MainMonitor
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -322,15 +326,16 @@ myStartupHook x width = do
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
 
-main :: IO ()
-main = do
-    mainDisplayInfoS <-
-        runProcessWithInput "/home/joko/.xmonad/getMainScreenWidth.sh" [] []
-    let mainDisplayS = splitString mainDisplayInfoS
-    let mainDisplayX = read (mainDisplayS !! 0) :: Int
-    let mainDisplayWidth = read (mainDisplayS !! 1) :: Int
-    workspaceBar <- spawnPipe $ myWorkspaceBar mainDisplayX mainDisplayWidth
-    xmonad $ ewmh defaultConfig
+main :: IO (Maybe ())
+main = runMaybeT $ do
+    mainMonitor <- MaybeT $ getMonitor
+    let mainDisplay = case mainMonitor of
+                        Nothing -> (1920, 2560)
+                        Just x -> (posX x, width x)
+        mainDisplayX = fst mainDisplay
+        mainDisplayWidth = snd mainDisplay
+    workspaceBar <- lift $ spawnPipe $ myWorkspaceBar mainDisplayX mainDisplayWidth
+    lift $ xmonad $ ewmh defaultConfig
         { terminal           = "urxvtc"
         , focusFollowsMouse  = myFocusFollowsMouse
         , clickJustFocuses   = myClickJustFocuses
