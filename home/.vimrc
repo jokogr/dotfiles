@@ -16,6 +16,10 @@ Plug 'junegunn/vim-easy-align'
 Plug 'plasticboy/vim-markdown'
 Plug 'junegunn/goyo.vim'
 
+" Browsing
+Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
+autocmd! User indentLine doautocmd indentLine Syntax
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
@@ -122,6 +126,9 @@ silent! if emoji#available()
 endif
 
 let g:ackprg = 'ag --nogroup --nocolor --column'
+
+" indentLine
+let g:indentLine_enabled = 0
 
 " LaTeX-BoX options
 
