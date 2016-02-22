@@ -1,5 +1,8 @@
 #! sh
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
 if [ -r "$HOME/.env.local" ]; then
   . "$HOME/.env.local"
   vars=`awk -F= '/^[A-Z].*=/ { print $1 }' "$HOME/.env.local"`
