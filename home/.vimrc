@@ -19,6 +19,8 @@ Plug 'junegunn/goyo.vim'
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
 autocmd! User indentLine doautocmd indentLine Syntax
 
+Plug 'justinmk/vim-gtfo'
+
 " Git
 Plug 'tpope/vim-fugitive'
 Plug 'gregsexton/gitv', { 'on': 'Gitv' }
