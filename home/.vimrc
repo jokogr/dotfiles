@@ -138,12 +138,6 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 " indentLine
 let g:indentLine_enabled = 0
 
-" LaTeX-BoX options
-
-let g:tex_flavor='latex'
-let g:LatexBox_latexmk_options
-                        \ = "-pdflatex='pdflatex -synctex=1 \%O \%S'"
-
 " syntastic
 let g:syntastic_javascript_checkers = ['jscs']
 let g:syntastic_always_populate_loc_list = 1
