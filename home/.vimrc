@@ -157,7 +157,8 @@ nmap ga <Plug>(EasyAlign)
 let g:vim_markdown_initial_foldlevel = &foldlevelstart
 
 " keyboard shortcuts
-let mapleader = ','
+let mapleader      = ' '
+let maplocalleader = ' '
 nmap <leader>b :Buffers<CR>
 nmap <leader>f :Files<CR>
 
