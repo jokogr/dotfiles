@@ -3,8 +3,13 @@
 . "$HOME/.zshenv"
 
 if [ -n "$PS1" ]; then
-  if [ -x "`which vim 2>/dev/null`" ]; then
+  if [ -x "`which nvim 2>/dev/null`" ]; then
+    VISUAL=nvim
+    alias vim='nvim'
+    alias vi='nvim'
+  elif [ -x "`which vim 2>/dev/null`" ]; then
     VISUAL=vim
+    alias vi='vim'
   elif [ -x "`which vi 2>/dev/null`" ]; then
     VISUAL=vi
   fi
@@ -19,8 +24,6 @@ if [ -n "$PS1" ]; then
   alias j='jobs'
 
   alias gst='git status'
-
-  [ "$VISUAL" != vim ] || alias vi='vim'
 
   export VISUAL EDITOR PAGER LESS
 
