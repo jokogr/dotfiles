@@ -1,4 +1,4 @@
-#include "/home/joko/.config/xresources/base16-tomorrow.dark.256"
+#include ".config/xresources/base16-tomorrow.dark.256"
 
 Xft.autohint: 0
 Xft.lcdfilter: lcddefault
@@ -15,6 +15,6 @@ URxvt.scrollBar: false
 URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/firefox
 URxvt.matcher.button: 1
-URxvt.colorUL: t_orange
+URxvt.colorUL: base0A
 
 Xcursor.theme: Human
