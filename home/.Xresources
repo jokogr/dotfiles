@@ -1,4 +1,4 @@
-#include "/home/joko/.config/xresources/colors-hybrid"
+#include "/home/joko/.config/xresources/base16-tomorrow.dark.256"
 
 Xft.autohint: 0
 Xft.lcdfilter: lcddefault
