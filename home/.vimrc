@@ -133,6 +133,10 @@ silent! if emoji#available()
   set statusline=%!MyStatusLine()
 endif
 
+highlight ExtraWhitespace ctermbg=LightRed guibg=LightRed
+au BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
+au InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
+
 let g:ackprg = 'ag --nogroup --nocolor --column'
 
 " indentLine
