@@ -16,6 +16,7 @@
 	default = simple
 [core]
 	excludesfile = ~/.cvsignore
+  autocrlf = input
 [pull]
 	rebase = true
 [commit]
