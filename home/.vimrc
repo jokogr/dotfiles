@@ -163,6 +163,7 @@ let maplocalleader = ' '
 nmap     <leader>b :Buffers<CR>
 nmap     <leader>f :Files<CR>
 nnoremap <leader>c :cclose<bar>lclose<cr>
+inoremap <C-d>     <C-^>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
 cmap w!! w !sudo tee > /dev/null %
