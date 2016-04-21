@@ -144,6 +144,9 @@ endif
 " indentLine
 let g:indentLine_enabled = 0
 
+" latex-box
+let g:LatexBox_latexmk_async=1
+
 " syntastic
 let g:syntastic_javascript_checkers = ['jscs']
 let g:syntastic_always_populate_loc_list = 1
