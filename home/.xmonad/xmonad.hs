@@ -317,8 +317,7 @@ myStartupHook x width = do
     spawnOnce "wmname LG3D"
     spawnOnce "xset +dpms"
     spawnOnce "xset dpms 0 0 300"
-    spawnOnce "xrdb -I$HOME $HOME/.Xresources"
-    spawnOnce "test -f ~/.Xresources.local && xrdb -merge ~/.Xresources.local"
+    spawnOnce "xrdb -I$HOME $HOME/.Xresources && test -f ~/.Xresources.local && xrdb -merge ~/.Xresources.local"
     spawnOnce "nitrogen --restore"
     spawn $ myTray x width
     spawn $ myStatusBar x width
