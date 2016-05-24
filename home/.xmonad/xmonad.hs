@@ -66,6 +66,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_s     ), shellPrompt myXPConfig)
     , ((modm,               xK_d     ), myScratchPad)
     , ((modm .|. shiftMask, xK_l     ), spawn "xscreensaver-command --lock")
+    , ((modm,               xK_p     ), spawn "toggleDisplayMode.sh")
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
 
