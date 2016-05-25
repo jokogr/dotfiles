@@ -35,7 +35,7 @@ activate_single_output () {
 }
 
 active_outputs=(`echo $xrandr_output | \
-  awk '/ connected/ {current_output=$1;} /\*/ {print current_output}'`)
+  awk '/ connected/ {current_output=$1;} /*/ {print current_output}'`)
 
 # Activate next connected output
 if ((${#active_outputs} == 1)); then
