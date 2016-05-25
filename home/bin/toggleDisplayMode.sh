@@ -19,7 +19,8 @@ xrandr_output="`xrandr -q`"
 available_outputs=(`echo $xrandr_output | awk '{if ($0 ~ "connected") {print $1;}}'`)
 connected_outputs=(`echo $xrandr_output | awk '{if ($0 ~ " connected") {print $1;}}'`)
 
-activate_output () {
+# activate_single_output() has one argument, the output which gets activated
+activate_single_output () {
   XRANDR_COMMAND="xrandr"
   for current_output in $available_outputs; do
     if [ "$current_output" = "$1" ]; then
@@ -42,5 +43,5 @@ if ((${#active_outputs} == 1)); then
   if (($next_index > $#connected_outputs)); then
     next_index=1
   fi
-  activate_output $connected_outputs[next_index]
+  activate_single_output $connected_outputs[next_index]
 fi
