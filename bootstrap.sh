@@ -25,6 +25,9 @@ read swo </dev/tty
 case "$swo" in
 	2)
 		git checkout linux-workstation
+		homeshick --batch clone https://git.joko.gr/joko/vimperator-dotfiles.git
+		homeshick cd vimperator-dotfiles
+		git remote set-url origin ssh://git@git.joko.gr:10022/joko/vimperator-dotfiles.git
 		;;
 	3)
 		git checkout osx
