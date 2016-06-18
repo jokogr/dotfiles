@@ -19,6 +19,6 @@ branches:
 In order to bootstrap directly, run the following command:
 ```text
 curl -sL https://git.joko.gr/joko/dotfiles/raw/base/bootstrap.sh \
-| /bin/bash -ex
+| /usr/bin/env bash -ex
 ```
 Follow the instructions.
