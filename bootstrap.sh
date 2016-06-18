@@ -49,4 +49,9 @@ curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 	https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 vim +PlugInstall +qall
 
+# Setup neovim
+mkdir -p $HOME/.config
+ln -s $HOME/.vim $HOME/.config/nvim
+ln -s $HOME/.vimrc $HOME/.config/nvim/init.vim
+
 cd -
