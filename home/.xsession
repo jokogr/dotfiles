@@ -9,12 +9,8 @@ setxkbmap "us,gr" -option terminate:ctrl_alt_bksp,grp:alt_space_toggle,ctrl:noca
 [ ! -x "`which xcape 2>/dev/null`" ] || xcape -d -e 'Control_L=Escape' &
 [ ! -x "`which kbdd 2>/dev/null`" ] || kbdd -n &
 
-if [ -x /usr/bin/ssh-agent -a -z "$SSH_AUTH_SOCK" ]; then
-  sshagent="/usr/bin/ssh-agent --"
-fi
-
 [ ! -x "`which pulseaudio 2>/dev/null`" ] || pulseaudio --start
 
 for wm in xmonad openbox xterm; do
-  [ -x "`which $wm 2>/dev/null`" ] && exec $sshagent $wm
+  [ -x "`which $wm 2>/dev/null`" ] && exec $wm
 done
