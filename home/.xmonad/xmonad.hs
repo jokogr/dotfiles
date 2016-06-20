@@ -125,7 +125,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_f     ), spawn "chromium --incognito")
     , ((modm              , xK_o     ), spawn "xdotool keyup super&")
     , ((modm              , xK_q     ),
-        spawn "killall status.sh dzen2 stalonetray; xmonad --restart")
+        spawn "pkill status.sh; pkill dzen2; pkill stalonetray; xmonad --restart")
     , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master toggle")
     ]
     ++
