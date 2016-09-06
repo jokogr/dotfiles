@@ -44,4 +44,6 @@ if ((${#active_outputs} == 1)); then
     next_index=1
   fi
   activate_single_output $connected_outputs[next_index]
+else
+  activate_single_output ${active_outputs[1]}
 fi
