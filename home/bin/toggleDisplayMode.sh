@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env zsh
 #
 # File:         toggleDisplayMode.sh
 # Author:       Ioannis Koutras <ioannis.koutras@gmail.com>
