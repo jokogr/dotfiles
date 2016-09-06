@@ -30,7 +30,7 @@ activate_single_output () {
     fi
   done
   eval ${XRANDR_COMMAND}
-  killall status.sh dzen2 stalonetray; xmonad --restart
+  pkill status.sh; pkill dzen2; pkill stalonetray; xmonad --restart
   exit
 }
 
