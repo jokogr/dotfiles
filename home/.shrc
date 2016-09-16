@@ -28,6 +28,8 @@ if [ -n "$PS1" ]; then
 
   alias verynice='ionice -c3 nice -n 15'
 
+  alias ffwprof='firefox -ProfileManager -no-remote'
+
   alias socks_start='ssh -D 8123 -fCqN'
   alias socks_stop='pkill -f "ssh -D 8123 -fCqN *"'
 
