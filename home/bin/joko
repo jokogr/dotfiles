@@ -4,14 +4,21 @@
 # This is a multi-purpose script inspired by tpope's respective one
 # (https://github.com/tpope/tpope/blob/master/bin/tpope).
 
+inpath() { type "$1" >/dev/null 2>&1; }
+
 case "$1" in
 
   update)
     source "$HOME/.homesick/repos/homeshick/homeshick.sh"
     homeshick pull
     homeshick link --force
-    vim +PlugUpgrade +qall
-    vim +PlugUpdate +qall
+    if inpath nvim; then
+      vim=nvim
+    else
+      vim=vim
+    fi
+    $vim +PlugUpgrade +qall
+    $vim +PlugUpdate +qall
     ;;
 
   '') echo "Usage: `basename "$0"` <command> [options]" ;;
