@@ -18,12 +18,15 @@ if [ -n "$PS1" ]; then
   LESS="FRX#10"
 
   alias ll='ls -l'
+  alias ls='ls -hF --color=auto'
   alias cp='cp -i'
   alias mv='mv -i'
 
   alias j='jobs'
 
   alias gst='git status'
+
+  alias verynice='ionice -c3 nice -n 15'
 
   alias socks_start='ssh -D 8123 -fCqN'
   alias socks_stop='pkill -f "ssh -D 8123 -fCqN *"'
