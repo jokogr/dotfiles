@@ -31,6 +31,7 @@ activate_single_output () {
   done
   eval ${XRANDR_COMMAND}
   pkill status.sh; pkill dzen2; pkill stalonetray; xmonad --restart
+  nitrogen --restore
   exit
 }
 
