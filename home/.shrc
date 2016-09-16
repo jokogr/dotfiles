@@ -25,6 +25,9 @@ if [ -n "$PS1" ]; then
 
   alias gst='git status'
 
+  alias socks_start='ssh -D 8123 -fCqN'
+  alias socks_stop='pkill -f "ssh -D 8123 -fCqN *"'
+
   export VISUAL EDITOR PAGER LESS
 
 fi
