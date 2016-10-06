@@ -105,4 +105,8 @@ fd() {
     && cd "$DIR"
 }
 
+test -d "$HOME/.fzf/shell" \
+  && . "$HOME/.fzf/shell/completion.zsh" \
+  && . "$HOME/.fzf/shell/key-bindings.zsh"
+
 test -f "$HOME/.zshrc.local" && . "$HOME/.zshrc.local"
