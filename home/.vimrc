@@ -15,6 +15,7 @@ Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-easy-align'
 Plug 'junegunn/goyo.vim'
 Plug 'neomake/neomake'
+Plug 'LnL7/vim-nix'
 
 " Browsing
 Plug 'Yggdroot/indentLine', { 'on': 'IndentLinesEnable' }
