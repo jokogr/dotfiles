@@ -31,3 +31,5 @@ if [ -n "$PS1" ]; then
   export VISUAL EDITOR PAGER LESS
 
 fi
+
+. "$HOME/z.sh"
