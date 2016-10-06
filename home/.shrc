@@ -30,6 +30,8 @@ if [ -n "$PS1" ]; then
 
   export VISUAL EDITOR PAGER LESS
 
+  export FZF_DEFAULT_COMMAND='pt --hidden --ignore .git -g ""'
+
 fi
 
 . "$HOME/z.sh"
