@@ -9,8 +9,15 @@ Xft.dpi: 96
 Xft.rgba: rgb
 
 URxvt.scrollBar: false
+URxvt.cursorBlink: 1
+URxvt.cursorUnderline: 1
+URxvt*shading: 24
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
 
-*font: xft:Source Code Pro for Powerline:style=Regular:size=11
+URxvt*skipBuiltinGlyphs: true
+URxvt.letterSpace:      -1
+*font: xft:Source Code Pro for Powerline:style=Regular:size=11,xft:Symbola:style=Regular:size=26
 
 URxvt.perl-ext-common: default,matcher
 URxvt.url-launcher: /usr/bin/firefox
