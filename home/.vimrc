@@ -8,7 +8,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'
-Plug 'LaTeX-Box-Team/LaTeX-Box'
+Plug 'lervag/vimtex'
 Plug 'mileszs/ack.vim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
@@ -146,8 +146,9 @@ endif
 " indentLine
 let g:indentLine_enabled = 0
 
-" latex-box
-let g:LatexBox_latexmk_async=1
+" vimtex
+let g:tex_flavor = 'latex'
+let g:vimtex_view_method = 'zathura'
 
 " syntastic
 let g:syntastic_javascript_checkers = ['jscs']
