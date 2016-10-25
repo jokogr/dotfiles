@@ -20,7 +20,7 @@ URxvt.letterSpace:      -1
 *font: xft:Source Code Pro for Powerline:style=Regular:size=11,xft:Symbola:style=Regular:size=26
 
 URxvt.perl-ext-common: default,matcher
-URxvt.url-launcher: /usr/bin/firefox
+URxvt.url-launcher: xdg-open
 URxvt.matcher.button: 1
 URxvt.colorUL: base0A
 
