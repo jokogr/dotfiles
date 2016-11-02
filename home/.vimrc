@@ -160,6 +160,9 @@ let g:syntastic_auto_loc_list = 1
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
 
+" vim-gtfo
+let g:gtfo#terminals = { 'unix' : 'urxvtc -cd' }
+
 " vim-markdown options
 let g:vim_markdown_initial_foldlevel = &foldlevelstart
 
