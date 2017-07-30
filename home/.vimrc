@@ -34,9 +34,6 @@ endif
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
 
-" Lint
-Plug 'scrooloose/syntastic', { 'on': 'SyntasticCheck' }
-
 call plug#end()
 
 filetype plugin indent on
@@ -151,10 +148,6 @@ let g:indentLine_enabled = 0
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
 
-" syntastic
-let g:syntastic_javascript_checkers = ['jscs']
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
 
 " vim-easy-align options
 xmap ga <Plug>(EasyAlign)
