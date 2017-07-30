@@ -148,6 +148,8 @@ let g:indentLine_enabled = 0
 let g:tex_flavor = 'latex'
 let g:vimtex_view_method = 'zathura'
 
+" neomake
+let g:neomake_javascript_enabled_makers = ['eslint']
 
 " vim-easy-align options
 xmap ga <Plug>(EasyAlign)
