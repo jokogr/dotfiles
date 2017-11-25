@@ -1,20 +1,31 @@
 {-# LANGUAGE TypeSynonymInstances, MultiParamTypeClasses, DeriveDataTypeable,
     NoMonomorphismRestriction, FlexibleContexts #-}
 
-import XMonad
+import XMonad hiding ( (|||) ) -- get III from X.L.LayoutCombinators
+import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
-import XMonad.Layout.Master
+import XMonad.Layout.Accordion
+import XMonad.Layout.BinarySpacePartition
+import XMonad.Layout.Gaps
+import XMonad.Layout.Hidden
+import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.MultiToggle
-import XMonad.Layout.Named
-import XMonad.Layout.NoBorders
-import XMonad.Layout.PerWorkspace (onWorkspace)
+import XMonad.Layout.NoFrillsDecoration
+import XMonad.Layout.PerScreen
 import XMonad.Layout.Reflect
+import XMonad.Layout.Renamed
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.ShowWName
+import XMonad.Layout.Simplest
+import XMonad.Layout.Spacing
+import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
+import XMonad.Layout.ThreeColumns
+import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 import XMonad.Util.NamedScratchpad
@@ -117,8 +128,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     , ((modm .|. shiftMask, xK_x),
         sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTX)
-    , ((modm .|. shiftMask, xK_y),
-        sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTY)
 
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     , ((modm              , xK_f     ), spawn "firefox")
@@ -172,10 +181,14 @@ myEventHook = handleEventHook defaultConfig <+> fullscreenEventHook <+> docksEve
 myWorkspaces :: [WorkspaceId]
 myWorkspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
-myDzenFont, myFont, colorBlack, colorBlue, colorGrayAlt, colorWhite,
-    colorWhiteAlt :: String
+topbar :: Dimension
+gap :: Int
+myDzenFont, myFont, myWideFont, colorBlack, colorBlue, colorGrayAlt,
+    colorWhite, colorWhiteAlt, base02, base03, blue, red, yellow,
+    active :: String
 myDzenFont           = "Segoe UI:size=10:style=Semibold"
-myFont               = "xft:Segoe UI:size=10:style=Semibold"
+myFont               = "xft:Roboto Condensed:style=Regular:pixelsize=16"
+myWideFont           = "xft:Roboto Condensed:style=Regular:pixelsize=180"
 colorBlack           = "#020202"
 colorBlackAlt        = "#1c1c1c"
 colorBlue            = "#3955c4"
@@ -185,6 +198,15 @@ colorGrayAlt         = "#161616"
 colorGreen           = "#99cc66"
 colorWhite           = "#a9a6af"
 colorWhiteAlt        = "#9d9d9d"
+base00               = "#657b83"
+base02               = "#073642"
+base03               = "#002b36"
+blue                 = "#268bd2"
+red                  = "#dc322f"
+yellow               = "#b58900"
+active               = blue
+topbar               = 10
+gap                  = 10
 myNormalBorderColor  = colorBlackAlt
 myFocusedBorderColor = colorGray
 
@@ -207,15 +229,43 @@ myXPConfig = defaultXPConfig
 myTabTheme :: Theme
 myTabTheme = defaultTheme
     { fontName            = myFont
-    , inactiveBorderColor = colorBlackAlt
-    , inactiveColor       = colorBlack
-    , inactiveTextColor   = colorGray
-    , activeBorderColor   = colorGray
-    , activeColor         = colorBlackAlt
-    , activeTextColor     = colorWhiteAlt
-    , urgentBorderColor   = colorGray
-    , urgentTextColor     = colorGreen
-    , decoHeight          = 14
+    , activeColor         = active
+    , inactiveColor       = base02
+    , activeBorderColor   = active
+    , inactiveBorderColor = base02
+    , activeTextColor     = base03
+    , inactiveTextColor   = base00
+    }
+
+topBarTheme :: Theme
+topBarTheme = def
+    { fontName            = myFont
+    , inactiveBorderColor = base03
+    , inactiveColor       = base03
+    , inactiveTextColor   = base03
+    , activeBorderColor   = active
+    , activeColor         = active
+    , activeTextColor     = active
+    , urgentBorderColor   = red
+    , urgentTextColor     = yellow
+    , decoHeight          = topbar
+    }
+
+myShowWNameTheme :: SWNConfig
+myShowWNameTheme = def
+    { swn_font              = myWideFont
+    , swn_fade              = 0.5
+    , swn_bgcolor           = "#000000"
+    , swn_color             = "#FFFFFF"
+    }
+
+myNav2DConf :: Navigation2DConfig
+myNav2DConf = def
+    { defaultTiledNavigation    = centerNavigation
+    , floatNavigation           = centerNavigation
+    , screenNavigation          = lineNavigation
+    , layoutNavigation          = [("Full", centerNavigation)]
+    , unmappedWindowRect        = [("Full", singleWindowRect)]
     }
 
 statusBarWidth :: Int
@@ -236,28 +286,50 @@ myTray x width = "stalonetray --grow-gravity NE --icon-gravity NE"
     ++ colorBlack ++ "' --geometry 1x1+"
     ++ show (x + width - statusBarWidth - 20)
 
-data TABBED = TABBED deriving (Read, Show, Eq, Typeable)
-instance Transformer TABBED Window where
-    transform TABBED x k = k myFull (\_ -> x)
-
-myTile = named "RT" $ ResizableTall 1 0.03 0.5 []
-myMirr = named "MR" $ Mirror myTile
-myFull = named "TS" $ tabbedAlways shrinkText myTabTheme
-myTabs = named "TS" $ tabbed shrinkText myTabTheme
-myTabM = named "TM" $ mastered 0.01 0.4 $ tabbed shrinkText myTabTheme
-
-myLayout = id $ avoidStruts $ smartBorders
-    $ mkToggle (single TABBED)
-    $ mkToggle (single REFLECTX)
-    $ mkToggle (single REFLECTY)
-    $ onWorkspace (myWorkspaces !! 0) webLayouts
-    $ tiled ||| Mirror tiled ||| myTabs
+myLayout = showWorkspaceName
+    $ reflectToggle
+    $ flex ||| tabs
     where
-        webLayouts = myTabs ||| myMirr ||| myTabM
-        tiled   = Tall nmaster delta ratio
-        nmaster = 1
-        ratio   = 1/2
-        delta   = 3/100
+        smallMonResWidth  = 1920
+
+        showWorkspaceName = showWName' myShowWNameTheme
+        reflectToggle     = mkToggle (single REFLECTX)
+
+        named n           = renamed [(XMonad.Layout.Renamed.Replace n)]
+        trimNamed w n     = renamed [(XMonad.Layout.Renamed.CutWordsLeft w),
+                                     (XMonad.Layout.Renamed.PrependWords n)]
+        suffixed n        = renamed [(XMonad.Layout.Renamed.AppendWords n)]
+        trimSuffixed w n  = renamed [(XMonad.Layout.Renamed.CutWordsRight w),
+                                     (XMonad.Layout.Renamed.AppendWords n)]
+
+        addTopBar         = noFrillsDeco shrinkText topBarTheme
+
+        mySpacing         = spacing gap
+        mySmallSpacing    = spacing sGap
+        sGap              = quot gap 2
+        myGaps            = gaps [(U, gap),(D, gap),(L, gap),(R, gap)]
+        mySmallGaps       = gaps [(U, sGap),(D, sGap),(L, sGap),(R, sGap)]
+
+        flex = trimNamed 5 "Flex"
+            $ avoidStruts
+            $ windowNavigation
+            $ addTopBar
+            $ addTabs shrinkText myTabTheme
+            $ subLayout [] (Simplest ||| Accordion)
+            $ ifWider smallMonResWidth wideLayouts standardLayouts
+            where
+                wideLayouts = myGaps $ mySpacing
+                    $ (suffixed "Wide 3Col" $ ThreeColMid 1 (1/20) (1/2))
+                  ||| (trimSuffixed 1 "Wide BSP" $ hiddenWindows emptyBSP)
+                standardLayouts = mySmallGaps $ mySmallSpacing
+                    $ (suffixed "Std 2/3" $ ResizableTall 1 (1/20) (2/3) [])
+                  ||| (suffixed "Std 1/2" $ ResizableTall 1 (1/20) (1/2) [])
+
+        tabs = named "Tabs"
+            $ avoidStruts
+            $ addTopBar
+            $ addTabs shrinkText myTabTheme
+            $ Simplest
 
 wrapTextBox :: String -> String -> String -> String -> String
 wrapTextBox fg bg1 bg2 t = "^fg(" ++ bg1 ++ ")^i(" ++ myIconPath  ++
@@ -335,7 +407,7 @@ main = runMaybeT $ do
         mainDisplayX = fst mainDisplay
         mainDisplayWidth = snd mainDisplay
     workspaceBar <- lift $ spawnPipe $ myWorkspaceBar mainDisplayX mainDisplayWidth
-    lift $ xmonad $ ewmh defaultConfig
+    lift $ xmonad $ withNavigation2DConfig myNav2DConf $ ewmh defaultConfig
         { terminal           = "urxvtc"
         , focusFollowsMouse  = myFocusFollowsMouse
         , clickJustFocuses   = myClickJustFocuses
