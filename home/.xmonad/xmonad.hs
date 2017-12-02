@@ -42,20 +42,19 @@ import Data.List
 import GHC.IO.Handle
 import System.Exit
 
-import MainMonitor
+import BarMonitor
 
-import qualified XMonad.StackSet as W
+import qualified DBus as D
+import qualified DBus.Client as D
+import qualified Codec.Binary.UTF8.String as UTF8
 import qualified Data.Map        as M
+import qualified XMonad.StackSet as W
 
 splitString :: String -> [String]
 splitString s = case dropWhile Data.Char.isSpace s of
     "" -> []
     s' -> w : splitString s''
         where (w, s'') = break Data.Char.isSpace s'
-
-myIconPath = "/home/joko/.xmonad/"
-xRes = 1920
-panelBoxHeight = 12
 
 -- Whether focus follows the mouse pointer.
 myFocusFollowsMouse :: Bool
@@ -134,7 +133,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_f     ), spawn "chromium --incognito")
     , ((modm              , xK_o     ), spawn "xdotool keyup super&")
     , ((modm              , xK_q     ),
-        spawn "pkill status.sh; pkill dzen2; pkill stalonetray; xmonad --restart")
+        spawn "pkill polybar; xmonad --restart")
     , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master toggle")
     ]
     ++
@@ -183,21 +182,16 @@ myWorkspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 topbar :: Dimension
 gap :: Int
-myDzenFont, myFont, myWideFont, colorBlack, colorBlue, colorGrayAlt,
-    colorWhite, colorWhiteAlt, base02, base03, blue, red, yellow,
-    active :: String
-myDzenFont           = "Segoe UI:size=10:style=Semibold"
+myFont, myWideFont, colorBlack, colorBlackAlt, colorBlue, colorGray,
+  colorGrayAlt, colorWhite, base02, base03, blue, red, yellow, active :: String
 myFont               = "xft:Roboto Condensed:style=Regular:pixelsize=16"
 myWideFont           = "xft:Roboto Condensed:style=Regular:pixelsize=180"
 colorBlack           = "#020202"
 colorBlackAlt        = "#1c1c1c"
 colorBlue            = "#3955c4"
-colorBlueAlt         = "#9caae2"
 colorGray            = "#444444"
 colorGrayAlt         = "#161616"
-colorGreen           = "#99cc66"
 colorWhite           = "#a9a6af"
-colorWhiteAlt        = "#9d9d9d"
 base00               = "#657b83"
 base02               = "#073642"
 base03               = "#002b36"
@@ -268,24 +262,6 @@ myNav2DConf = def
     , unmappedWindowRect        = [("Full", singleWindowRect)]
     }
 
-statusBarWidth :: Int
-statusBarWidth = 290
-
-commonBarSettings :: String
-commonBarSettings = "-y '0' -h '16' -fn '" ++ myDzenFont ++ "' -bg '"
-    ++ colorBlack ++ "' -fg '" ++ colorWhiteAlt ++ "' -p -e 'onstart=lower'"
-myWorkspaceBar, myStatusBar, myTray :: Int -> Int -> String
-myWorkspaceBar x width = "dzen2 -x '" ++ show x ++ "' -w '" ++
-    show (width - statusBarWidth) ++ "' -ta l " ++ commonBarSettings
-myStatusBar x width = "DZEN_FG2=" ++ colorGray
-    ++ " /home/joko/.xmonad/status.sh | dzen2 -x '" ++ show (x + width
-    - statusBarWidth) ++ "' -w '" ++ show(statusBarWidth) ++ "' -ta r "
-    ++ commonBarSettings
-myTray x width = "stalonetray --grow-gravity NE --icon-gravity NE"
-    ++ " --icon-size 16 --max-geometry 0x1 --window-layer top --background '"
-    ++ colorBlack ++ "' --geometry 1x1+"
-    ++ show (x + width - statusBarWidth - 20)
-
 myLayout = showWorkspaceName
     $ reflectToggle
     $ flex ||| tabs
@@ -331,36 +307,32 @@ myLayout = showWorkspaceName
             $ addTabs shrinkText myTabTheme
             $ Simplest
 
-wrapTextBox :: String -> String -> String -> String -> String
-wrapTextBox fg bg1 bg2 t = "^fg(" ++ bg1 ++ ")^i(" ++ myIconPath  ++
-    "boxleft.xbm)^ib(1)^r(" ++ show xRes ++ "x" ++ show panelBoxHeight ++
-    ")^p(-" ++ show xRes ++ ")^fg(" ++ fg ++ ")" ++ t ++ "^fg(" ++ bg1 ++ 
-    ")^i(" ++ myIconPath ++ "boxright.xbm)^fg(" ++ bg2 ++ ")^r(" ++ 
-    show xRes ++ "x" ++ show panelBoxHeight ++ ")^p(-" ++ show xRes ++
-    ")^fg()^ib(0)"
-
-wrapClickWorkspace ws = "^ca(1," ++ xdo "w;" ++ xdo index ++ ")" ++ "^ca(3," ++
-    xdo "w;" ++ xdo index ++ ")" ++ ws ++ "^ca()^ca()"
+wrapClickWorkspace ws = "%{A:" ++ xdo index ++ ":}" ++ ws ++ "%{A}"
     where
         wsIdxToString Nothing = "1"
         wsIdxToString (Just n) = show $ mod (n+1) $ length myWorkspaces
         index = wsIdxToString (elemIndex ws myWorkspaces)
-        xdo key = "/usr/bin/xdotool key super+" ++ key
+        xdo key = "xdotool key super+" ++ key
 
-myLogHook :: Handle -> X ()
-myLogHook h = dynamicLogWithPP $ defaultPP
-    { ppOutput = hPutStrLn h
+myLogHook :: D.Client -> PP
+myLogHook dbus = def
+    { ppOutput = dbusOutput dbus
+    , ppCurrent = wrap "%{B#88000000}%{u#ddd} " " %{-u}%{B-}" . wrapClickWorkspace
+    , ppHidden = wrap " " " " . wrapClickWorkspace
+    , ppHiddenNoWindows = wrap "%{F#44ffffff} " " %{F-}" . wrapClickWorkspace
     , ppSort = fmap (namedScratchpadFilterOutWorkspace .) (ppSort defaultPP)
-    , ppCurrent = wrapTextBox colorBlack colorBlue colorBlack
-    , ppVisible = wrapTextBox colorBlack colorBlueAlt colorBlack .
-        wrapClickWorkspace
-    , ppHidden = wrapTextBox colorWhiteAlt colorGrayAlt colorBlack .
-        wrapClickWorkspace
-    , ppHiddenNoWindows = wrapTextBox colorBlack colorGrayAlt colorBlack .
-        wrapClickWorkspace
-    , ppSep = " "
-    , ppWsSep = ""
-    }
+		}
+
+dbusOutput :: D.Client -> String -> IO ()
+dbusOutput dbus str = do
+    let signal = (D.signal objectPath interfaceName memberName) {
+             D.signalBody = [D.toVariant $ UTF8.decodeString str]
+        }
+    D.emit dbus signal
+  where
+    objectPath = D.objectPath_ "/org/xmonad/Log"
+    interfaceName = D.interfaceName_ "org.xmonad.Log"
+    memberName = D.memberName_ "Update"
 
 manageScratchPad :: ManageHook
 manageScratchPad = scratchpadManageHook (W.RationalRect 0 (1/50) 1 (3/4))
@@ -385,29 +357,28 @@ myManageHook = composeAll . concat $
 	myFloatAS = ["sun-awt-X11-XDialogPeer", "MATLAB", "Dialog",
 		    "file_progress", "vncviewer"]
 
-myStartupHook :: Int -> Int -> X ()
-myStartupHook x width = do
+myStartupHook :: Maybe String -> X ()
+myStartupHook maybeBarMonitor = do
     spawnOnce "wmname LG3D"
     spawnOnce "xset +dpms"
     spawnOnce "xset dpms 0 0 300"
     spawnOnce "xrdb -I$HOME $HOME/.Xresources && test -f ~/.Xresources.local && xrdb -merge ~/.Xresources.local"
     spawnOnce "nitrogen --restore"
-    spawn $ myTray x width
-    spawn $ myStatusBar x width
+    case maybeBarMonitor of
+      Nothing -> spawn "polybar main"
+      Just barMonitor -> spawn $ "MONITOR=" ++ barMonitor ++ " polybar main"
+    spawnOnce "polybar main"
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
 
-main :: IO (Maybe ())
-main = runMaybeT $ do
-    mainMonitor <- MaybeT $ getMonitor
-    let mainDisplay = case mainMonitor of
-                        Nothing -> (1920, 2560)
-                        Just x -> (posX x, width x)
-        mainDisplayX = fst mainDisplay
-        mainDisplayWidth = snd mainDisplay
-    workspaceBar <- lift $ spawnPipe $ myWorkspaceBar mainDisplayX mainDisplayWidth
-    lift $ xmonad $ withNavigation2DConfig myNav2DConf $ ewmh defaultConfig
+main :: IO ()
+main = do
+    barMonitor <- getBarMonitor
+    dbus <- D.connectSession
+    D.requestName dbus (D.busName_ "org.xmonad.Log")
+        [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+    xmonad $ withNavigation2DConfig myNav2DConf $ ewmh defaultConfig
         { terminal           = "urxvtc"
         , focusFollowsMouse  = myFocusFollowsMouse
         , clickJustFocuses   = myClickJustFocuses
@@ -419,8 +390,8 @@ main = runMaybeT $ do
         , keys               = myKeys
         , mouseBindings      = myMouseBindings
         , layoutHook         = myLayout
-        , manageHook         = myManageHook <+> manageScratchPad
+        , manageHook         = manageDocks <+> myManageHook <+> manageScratchPad
         , handleEventHook    = myEventHook
-        , logHook            = myLogHook workspaceBar
-        , startupHook        = myStartupHook mainDisplayX mainDisplayWidth
+        , logHook            = dynamicLogWithPP (myLogHook dbus)
+        , startupHook        = myStartupHook barMonitor
         }
