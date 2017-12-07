@@ -34,8 +34,6 @@ import XMonad.Util.Scratchpad
 import XMonad.Util.SpawnOnce
 import Graphics.X11.ExtraTypes.XF86
 
-import Control.Monad.Trans (lift)
-import Control.Monad.Trans.Maybe
 import Data.Char
 import Data.Monoid
 import Data.List
