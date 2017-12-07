@@ -316,6 +316,7 @@ myLogHook :: D.Client -> PP
 myLogHook dbus = def
     { ppOutput = dbusOutput dbus
     , ppCurrent = wrap "%{B#88000000}%{u#ddd} " " %{-u}%{B-}" . wrapClickWorkspace
+    , ppVisible = wrap "%{B#88000000}%{F#808080} " " %{F-}%{B-}"
     , ppHidden = wrap " " " " . wrapClickWorkspace
     , ppHiddenNoWindows = wrap "%{F#44ffffff} " " %{F-}" . wrapClickWorkspace
     , ppSort = fmap (namedScratchpadFilterOutWorkspace .) (ppSort defaultPP)
