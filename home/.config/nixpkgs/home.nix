@@ -1,8 +1,10 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
 
-  sysconfig = (import <nixpkgs/nixos> {}).config;
+  sysconfig = (import <nixpkgs/nixos> {
+    system = config.nixpkgs.system;
+  }).config;
 
   desktopApps = with pkgs; [
     calibre
