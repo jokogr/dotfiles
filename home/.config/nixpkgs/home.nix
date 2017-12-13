@@ -18,7 +18,7 @@ let
 in {
 
   lib = let nixos = import <nixpkgs/nixos> { system = config.nixpkgs.system; };
-  in pkgs.lib.mkBefore { myConfig = nixos.config; };
+  in { myConfig = nixos.config; };
 
   programs.home-manager.enable = true;
   programs.home-manager.path = https://github.com/rycee/home-manager/archive/master.tar.gz;
