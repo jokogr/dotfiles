@@ -2,9 +2,7 @@
 
 let
 
-  sysconfig = (import <nixpkgs/nixos> {
-    system = config.nixpkgs.system;
-  }).config;
+  sysconfig = config.lib.myConfig;
 
   desktopApps = with pkgs; [
     calibre
@@ -18,6 +16,9 @@ let
   ];
 
 in {
+
+  lib = let nixos = import <nixpkgs/nixos> { system = config.nixpkgs.system; };
+  in pkgs.lib.mkBefore { myConfig = nixos.config; };
 
   programs.home-manager.enable = true;
   programs.home-manager.path = https://github.com/rycee/home-manager/archive/master.tar.gz;
