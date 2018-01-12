@@ -17,8 +17,14 @@ if [ -n "$PS1" ]; then
   [ ! -x "`which less 2>/dev/null`" ] || PAGER=less
   LESS="FRX#10"
 
-  alias ll='ls -l'
-  alias ls='ls -hF --color=auto'
+  if [[ -n ${commands[exa]} ]]; then
+    alias ls='exa'
+    alias tree='exa -T'
+    alias ll='exa -l'
+  else
+    alias ll='ls -l'
+    alias ls='ls -hF --color=auto'
+  fi
   alias cp='cp -i'
   alias mv='mv -i'
 
