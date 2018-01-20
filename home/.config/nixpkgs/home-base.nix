@@ -4,10 +4,14 @@ let
 
   sysconfig = config.lib.myConfig;
 
-  desktopApps = with pkgs; [
-    calibre
+  desktopEnvironmentApps = with pkgs; [
     copyq
     polybar
+    xmonad-log
+  ];
+
+  desktopApps = with pkgs; [
+    calibre
     gwenview
     font-awesome-ttf
     iosevka
@@ -28,7 +32,8 @@ in {
   };
 
   programs.home-manager.enable = true;
-  programs.home-manager.path = https://github.com/rycee/home-manager/archive/master.tar.gz;
+  programs.home-manager.path =
+    https://github.com/rycee/home-manager/archive/master.tar.gz;
 
   home.packages = with pkgs; [
     direnv
@@ -43,6 +48,9 @@ in {
     python3Packages.yapf
     ranger
     youtube-dl
-  ] ++ pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps;
+  ] ++
+    pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
+    pkgs.lib.optionals sysconfig.services.xserver.enable
+       desktopEnvironmentApps;
 
 }
