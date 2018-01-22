@@ -6,7 +6,14 @@ let
 
   desktopEnvironmentApps = with pkgs; [
     copyq
+    dunst
+    i3lock-fancy
+    nitrogen
+    rxvt_unicode-with-plugins
     polybar
+    wmname
+    xcape
+    xclip
     xmonad-log
   ];
 
