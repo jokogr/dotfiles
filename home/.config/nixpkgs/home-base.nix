@@ -27,6 +27,7 @@ let
     filezilla
     skrooge
     vlc
+    (wine.override { wineBuild = "wineWow"; })
     gnome3.dconf
     gnome3.vinagre
     jetbrains.idea-ultimate
