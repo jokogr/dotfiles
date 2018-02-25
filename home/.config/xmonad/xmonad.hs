@@ -371,6 +371,7 @@ myStartupHook maybeBarMonitor = do
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
     spawn "rm -f ~/.xmonad/xmonad.state"
+    spawnOnce "copyq"
 
 main :: IO ()
 main = do
