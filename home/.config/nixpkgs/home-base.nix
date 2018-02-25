@@ -57,6 +57,7 @@ in {
     python3Packages.yapf
     ranger
     youtube-dl
+    wol
   ] ++
     pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
