@@ -52,6 +52,7 @@ in {
     ncmpcpp
     ncdu
     neomutt
+    offlineimap
     pgcli
     python3Packages.yapf
     ranger
