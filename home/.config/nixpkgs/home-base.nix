@@ -33,6 +33,7 @@ let
     gnome3.dconf
     gnome3.vinagre
     jetbrains.idea-ultimate
+    kdiff3
   ];
 
 in {
