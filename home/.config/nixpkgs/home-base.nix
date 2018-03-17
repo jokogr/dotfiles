@@ -10,19 +10,21 @@ let
     i3lock-fancy
     nitrogen
     rxvt_unicode-with-plugins
+    pavucontrol
     polybar
     wmname
     xcape
     xclip
     xmonad-log
+    # Fonts
+    font-awesome-ttf
+    iosevka
+    roboto
   ];
 
   desktopApps = with pkgs; [
     calibre
     gwenview
-    font-awesome-ttf
-    iosevka
-    roboto
     siji
     filezilla
     skrooge
