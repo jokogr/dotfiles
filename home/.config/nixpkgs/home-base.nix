@@ -38,6 +38,16 @@ let
     kdiff3
   ];
 
+  latexPackages = with pkgs; [
+    (texlive.combine { inherit (texlive) scheme-basic collection-bibtexextra
+    collection-binextra collection-fontsextra collection-fontsrecommended
+    collection-langgreek collection-latex collection-latexextra
+    collection-latexrecommended collection-metapost collection-publishers
+    collection-xetex xindy glossaries;
+    })
+    biber python3Packages.pygments
+  ];
+
 in {
 
   nixpkgs.config = {
@@ -64,8 +74,9 @@ in {
     youtube-dl
     wol
   ] ++
+    pkgs.lib.optionals sysconfig.custom.hasLaTeX latexPackages ++
     pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
-       desktopEnvironmentApps;
+      desktopEnvironmentApps;
 
 }
