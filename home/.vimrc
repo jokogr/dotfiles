@@ -137,8 +137,8 @@ highlight ExtraWhitespace ctermbg=LightRed guibg=LightRed
 au BufNewFile,BufRead,InsertLeave * silent! match ExtraWhitespace /\s\+$/
 au InsertEnter * silent! match ExtraWhitespace /\s\+\%#\@<!$/
 
-if executable('pt')
-  let g:ackprg = 'pt --nogroup --nocolor --column'
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
 endif
 
 " indentLine

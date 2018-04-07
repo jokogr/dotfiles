@@ -41,7 +41,7 @@ if [ -n "$PS1" ]; then
 
   export VISUAL EDITOR PAGER LESS
 
-  export FZF_DEFAULT_COMMAND='pt --hidden --ignore .git -g ""'
+  export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
 fi
 
