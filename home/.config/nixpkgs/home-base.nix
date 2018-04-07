@@ -23,6 +23,10 @@ let
   ];
 
   desktopApps = with pkgs; [
+    firefox chromium
+    keepassx2-http
+    libreoffice-fresh
+    zathura
     calibre
     gwenview
     siji
@@ -66,6 +70,7 @@ in {
     mpd
     ncmpcpp
     ncdu
+    nixops
     neomutt
     offlineimap
     pgcli
