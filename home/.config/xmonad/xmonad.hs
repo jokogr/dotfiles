@@ -339,6 +339,13 @@ manageScratchPad = scratchpadManageHook (W.RationalRect 0 (1/50) 1 (3/4))
 myScratchPad :: X ()
 myScratchPad = scratchpadSpawnActionCustom "urxvtc -name scratchpad"
 
+{- IntelliJ popup fix from http://youtrack.jetbrains.com/issue/IDEA-74679#comment=27-417315 -}
+{- and http://youtrack.jetbrains.com/issue/IDEA-101072#comment=27-456320 -}
+(~=?) :: Eq a => Query [a] -> [a] -> Query Bool
+q ~=? x = fmap (isPrefixOf x) q
+
+manageIdeaCompletionWindow = (className ~=? "jetbrains-") <&&> (title ~=? "win") --> doIgnore
+
 myManageHook :: ManageHook
 myManageHook = composeAll . concat $
     [ [className =? "stalonetray"    --> doIgnore ]
@@ -351,6 +358,7 @@ myManageHook = composeAll . concat $
     , [title =? "Password Required" --> doFloat ]
     , [appName   =? a --> doCenterFloat | a <- myFloatAS ]
     , [isFullscreen --> doFullFloat]
+    , [manageIdeaCompletionWindow]
     ] where
         myWebS = ["Chromium","Firefox"]
 	myFloatAS = ["sun-awt-X11-XDialogPeer", "MATLAB", "Dialog",
