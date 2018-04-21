@@ -65,6 +65,7 @@ in {
   home.packages = with pkgs; [
     direnv
     exa
+    git-crypt
     httpie
     sshfs
     mpd
