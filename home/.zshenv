@@ -14,6 +14,10 @@ ENV="$HOME/.shrc"
 BASH_ENV="$HOME/.zshenv"
 export ENV BASH_ENV
 
+if [ -f "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+  . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+fi
+
 for dir in /usr/local/bin "$HOME/bin"; do
   if [ -d "$dir" ]; then
     PATH="""${dir}:`echo "$PATH"|sed -e "s#${dir}:##"`"
