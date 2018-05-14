@@ -42,6 +42,7 @@ let
     kdiff3
     pcmanfm
     gvfs
+    virtmanager
   ];
 
   latexPackages = with pkgs; [
