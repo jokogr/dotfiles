@@ -40,6 +40,8 @@ let
     gnome3.vinagre
     jetbrains.idea-ultimate
     kdiff3
+    pcmanfm
+    gvfs
   ];
 
   latexPackages = with pkgs; [
@@ -56,6 +58,10 @@ in {
 
   nixpkgs.config = {
     allowUnfree = true;
+  };
+
+  home.sessionVariables = {
+    GIO_EXTRA_MODULES = "${pkgs.gvfs}/lib/gio/modules";
   };
 
   programs.home-manager.enable = true;
