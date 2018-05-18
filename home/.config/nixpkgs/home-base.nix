@@ -7,6 +7,7 @@ let
   desktopEnvironmentApps = with pkgs; [
     copyq
     dunst
+    gnome3.zenity
     i3lock-fancy
     nitrogen
     rxvt_unicode-with-plugins
