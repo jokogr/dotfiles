@@ -2,6 +2,7 @@
     NoMonomorphismRestriction, FlexibleContexts #-}
 
 import XMonad hiding ( (|||) ) -- get III from X.L.LayoutCombinators
+import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.Navigation2D
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
@@ -28,6 +29,8 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Util.EZConfig
+import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run (hPutStrLn, runProcessWithInput, spawnPipe)
 import XMonad.Util.Scratchpad
@@ -69,89 +72,79 @@ myBorderWidth   = 1
 ------------------------------------------------------------------------
 -- Key bindings. Add, modify or remove key bindings here.
 --
-myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm,               xK_s     ), shellPrompt myXPConfig)
-    , ((modm,               xK_d     ), myScratchPad)
-    , ((modm .|. shiftMask, xK_l     ), spawn "i3lock-fancy -gp")
-    , ((modm,               xK_p     ), spawn "toggleDisplayMode.sh")
-    -- close focused window
-    , ((modm .|. shiftMask, xK_c     ), kill)
 
-     -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
+myModMask = mod4Mask
 
-    --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
+showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
+showKeybindings x = addName "Show Keybindings" $ io $ do
+    h <- spawnPipe "zenity --text-info"
+    hPutStr h (unlines $ showKm x)
+    hClose h
+    return ()
 
-    -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
+wsKeys = map show $ [1..9] ++ [0]
 
-    , ((modm,               xK_Tab   ), windows W.focusDown)
-    , ((modm .|. shiftMask, xK_Tab   ), windows W.focusUp  )
+myKeys conf = let
+    subKeys str ks = subtitle str : mkNamedKeymap conf ks
+    zipM  m nm ks as f = zipWith (\k d -> (m ++ k, addName nm $ f d)) ks as
+    zipM' m nm ks as f b = zipWith (\k d -> (m ++ k, addName nm $ f d b)) ks as
+    in
+    subKeys "System"
+    [ ("M-q" , addName "Restart XMonad" $ spawn "pkill polybar; xmonad --restart")
+    , ("M-S-q" , addName "Quit XMonad" $ io (exitWith ExitSuccess))
+    ] ^++^
 
-    -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
+    subKeys "Actions"
+    [ ("M-S-l", addName "Lock screen" $ spawn "i3lock-fancy -gp")
+    , ("M-p", addName "Toggle monitors" $ spawn "toggleDisplayMode.sh")
+    ] ^++^
 
-    -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
+    subKeys "Launchers"
+    [ ("M-S-<Return>", addName "Terminal" $ spawn myTerminal)
+    , ("M-s", addName "Launcher" $ shellPrompt myXPConfig)
+    , ("M-d", addName "Scratchpad" $ myScratchPad)
+    , ("M-f", addName "Firefox" $ spawn "firefox")
+    , ("M-S-f", addName "Chromium Incognito" $ spawn "chromium --incognito")
+    , ("M-o", addName "Unstuck xdotool" $ spawn "xdotool keyup super&")
+    ] ^++^
 
-    -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster  )
+    subKeys "Windows"
+    [ ("M-S-c", addName "Kill" $ kill)
+    , ("M-<Tab>", addName "Navigate D" $ windows W.focusDown)
+    , ("M-S-<Tab>", addName "Navigate U" $ windows W.focusUp)
+    , ("M-m", addName "Navigate M" $ windows W.focusMaster)
+    , ("M-<Return>", addName "Swap master" $ windows W.swapMaster)
+    , ("M-S-j", addName "Swap with next" $ windows W.swapDown)
+    , ("M-S-k", addName "Swap with previous" $ windows W.swapUp)
+    , ("M-t", addName "Push back" $ withFocused $ windows . W.sink)
+    ] ^++^
 
-    -- Swap the focused window and the master window
-    , ((modm,               xK_Return), windows W.swapMaster)
+    subKeys "Workspaces"
+    (
+       zipM "M-"  "View      ws" wsKeys [0..] (withNthWorkspace W.greedyView)
+    ++ zipM "M-S" "Move      ws" wsKeys [0..] (withNthWorkspace W.shift)
+    ) ^++^
 
-    -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
+    subKeys "Layout Management"
+    [ ("M-<Space>" , addName "Cycle all layouts" $ sendMessage NextLayout)
+    , ("M-n" , addName "Resize" $ refresh)
+    , ("M-S-x" , addName "Reflect" $ sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTX)
+    ] ^++^
 
-    -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
-
-    -- Shrink the master area
-    , ((modm,               xK_h     ), sendMessage Shrink)
-
-    -- Expand the master area
-    , ((modm,               xK_l     ), sendMessage Expand)
-
-    -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
-
-    -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
-
-    -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
-
-    , ((modm .|. shiftMask, xK_x),
-        sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTX)
-
-    , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
-    , ((modm              , xK_f     ), spawn "firefox")
-    , ((modm .|. shiftMask, xK_f     ), spawn "chromium --incognito")
-    , ((modm              , xK_o     ), spawn "xdotool keyup super&")
-    , ((modm              , xK_q     ),
-        spawn "pkill polybar; xmonad --restart")
-    , ((0, xF86XK_AudioMute), spawn "amixer -D pulse set Master toggle")
+    subKeys "Resize"
+    [ ("M-h" , addName "Shrink master" $ sendMessage Shrink)
+    , ("M-l" , addName "Expand master" $ sendMessage Expand)
+    , ("M-," , addName "Increase master windows" $ sendMessage (IncMasterN 1))
+    , ("M-." , addName "Decrease master windows" $ sendMessage (IncMasterN (-1)))
     ]
-    ++
-
-    --
-    -- mod-[1..9], Switch to workspace N
-    -- mod-shift-[1..9], Move client to workspace N
-    --
-    [((m .|. modm, k), windows $ f i)
-        | (i, k) <- zip (XMonad.workspaces conf) [xK_1 .. xK_9]
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-    ++
 
     --
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
     --
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
+    -- [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
+    --    | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
+    --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 
 ------------------------------------------------------------------------
@@ -381,26 +374,31 @@ myStartupHook maybeBarMonitor = do
     spawn "rm -f ~/.xmonad/xmonad.state"
     spawnOnce "copyq"
 
+myTerminal = "urxvtc"
+
 main :: IO ()
 main = do
     barMonitor <- getBarMonitor
     dbus <- D.connectSession
     D.requestName dbus (D.busName_ "org.xmonad.Log")
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-    xmonad $ withNavigation2DConfig myNav2DConf $ ewmh $ def
-        { terminal           = "urxvtc"
-        , focusFollowsMouse  = myFocusFollowsMouse
-        , clickJustFocuses   = myClickJustFocuses
-        , borderWidth        = myBorderWidth
-        , modMask            = mod4Mask
-        , workspaces         = myWorkspaces
-        , normalBorderColor  = myNormalBorderColor
-        , focusedBorderColor = myFocusedBorderColor
-        , keys               = myKeys
-        , mouseBindings      = myMouseBindings
-        , layoutHook         = myLayout
-        , manageHook         = manageDocks <+> myManageHook <+> manageScratchPad
-        , handleEventHook    = myEventHook
-        , logHook            = dynamicLogWithPP (myLogHook dbus)
-        , startupHook        = myStartupHook barMonitor
-        }
+    xmonad
+        $ withNavigation2DConfig myNav2DConf
+        $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
+        $ ewmh
+        $ def
+            { focusFollowsMouse  = myFocusFollowsMouse
+            , clickJustFocuses   = myClickJustFocuses
+            , borderWidth        = myBorderWidth
+            , modMask            = mod4Mask
+            , workspaces         = myWorkspaces
+            , normalBorderColor  = myNormalBorderColor
+            , focusedBorderColor = myFocusedBorderColor
+            , mouseBindings      = myMouseBindings
+            , layoutHook         = myLayout
+            , manageHook         = manageDocks <+> myManageHook <+> manageScratchPad
+            , handleEventHook    = myEventHook
+            , logHook            = dynamicLogWithPP (myLogHook dbus)
+            , startupHook        = myStartupHook barMonitor
+            , terminal           = myTerminal
+            }
