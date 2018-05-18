@@ -173,7 +173,7 @@ myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
 
-myEventHook = handleEventHook defaultConfig <+> fullscreenEventHook <+> docksEventHook
+myEventHook = handleEventHook def <+> fullscreenEventHook <+> docksEventHook
 
 myWorkspaces :: [WorkspaceId]
 myWorkspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -387,7 +387,7 @@ main = do
     dbus <- D.connectSession
     D.requestName dbus (D.busName_ "org.xmonad.Log")
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-    xmonad $ withNavigation2DConfig myNav2DConf $ ewmh defaultConfig
+    xmonad $ withNavigation2DConfig myNav2DConf $ ewmh $ def
         { terminal           = "urxvtc"
         , focusFollowsMouse  = myFocusFollowsMouse
         , clickJustFocuses   = myClickJustFocuses
