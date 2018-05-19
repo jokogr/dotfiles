@@ -122,7 +122,7 @@ myKeys conf = let
     subKeys "Workspaces"
     (
        zipM "M-"  "View      ws" wsKeys [0..] (withNthWorkspace W.greedyView)
-    ++ zipM "M-S" "Move      ws" wsKeys [0..] (withNthWorkspace W.shift)
+    ++ zipM "M-S-" "Move      ws" wsKeys [0..] (withNthWorkspace W.shift)
     ) ^++^
 
     subKeys "Layout Management"
