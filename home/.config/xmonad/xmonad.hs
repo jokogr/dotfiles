@@ -340,22 +340,29 @@ q ~=? x = fmap (isPrefixOf x) q
 manageIdeaCompletionWindow = (className ~=? "jetbrains-") <&&> (title ~=? "win") --> doIgnore
 
 myManageHook :: ManageHook
-myManageHook = composeAll . concat $
-    [ [className =? "stalonetray"    --> doIgnore ]
-    , [title     =? "Clip to Evernote" --> doIgnore ]
-    , [className =? c --> doShift (myWorkspaces !! 0) | c <- myWebS ]
-    , [className =? "MPlayer"        --> doFloat  ]
-    , [className =? "Gimp"           --> doFloat  ]
-    , [resource  =? "desktop_window" --> doIgnore ]
-    , [resource  =? "kdesktop"       --> doIgnore ]
-    , [title =? "Password Required" --> doFloat ]
-    , [appName   =? a --> doCenterFloat | a <- myFloatAS ]
-    , [isFullscreen --> doFullFloat]
-    , [manageIdeaCompletionWindow]
-    ] where
-        myWebS = ["Chromium","Firefox"]
-	myFloatAS = ["sun-awt-X11-XDialogPeer", "MATLAB", "Dialog",
-		    "file_progress", "vncviewer"]
+myManageHook =
+        manageSpecific
+    <+> manageDocks
+    <+> manageScratchPad
+    where
+        manageSpecific = composeAll . concat $
+            [ [className =? "stalonetray"    --> doIgnore ]
+            , [title     =? "Clip to Evernote" --> doIgnore ]
+            , [className =? c --> doShift (myWorkspaces !! 0) | c <- myWebS ]
+            , [className =? "MPlayer"        --> doFloat  ]
+            , [className =? "Gimp"           --> doFloat  ]
+            , [resource  =? "desktop_window" --> doIgnore ]
+            , [resource  =? "kdesktop"       --> doIgnore ]
+            , [title =? "Password Required" --> doFloat ]
+            , [appName   =? a --> doCenterFloat | a <- myFloatAS ]
+            , [isFullscreen --> doFullFloat]
+            , [manageIdeaCompletionWindow]
+            , [appName =? "sun-awt-X11-XWindowPeer" <&&> className =? "jetbrains-idea" --> doIgnore]
+            ]
+            where
+                myWebS = ["Chromium","Firefox"]
+                myFloatAS = ["sun-awt-X11-XDialogPeer", "MATLAB", "Dialog",
+                    "file_progress", "vncviewer"]
 
 myStartupHook :: Maybe String -> X ()
 myStartupHook maybeBarMonitor = do
@@ -396,7 +403,7 @@ main = do
             , focusedBorderColor = myFocusedBorderColor
             , mouseBindings      = myMouseBindings
             , layoutHook         = myLayout
-            , manageHook         = manageDocks <+> myManageHook <+> manageScratchPad
+            , manageHook         = myManageHook
             , handleEventHook    = myEventHook
             , logHook            = dynamicLogWithPP (myLogHook dbus)
             , startupHook        = myStartupHook barMonitor
