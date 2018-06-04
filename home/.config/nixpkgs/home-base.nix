@@ -9,6 +9,7 @@ let
     dunst
     gnome3.zenity
     i3lock-fancy
+    kitty
     nitrogen
     rxvt_unicode-with-plugins
     pavucontrol
