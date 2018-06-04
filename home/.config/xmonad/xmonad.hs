@@ -84,10 +84,12 @@ showKeybindings x = addName "Show Keybindings" $ io $ do
 
 wsKeys = map show $ [1..9] ++ [0]
 
+screenKeys :: [String]
+screenKeys = [ "w", "e", "r" ]
+
 myKeys conf = let
     subKeys str ks = subtitle str : mkNamedKeymap conf ks
     zipM  m nm ks as f = zipWith (\k d -> (m ++ k, addName nm $ f d)) ks as
-    zipM' m nm ks as f b = zipWith (\k d -> (m ++ k, addName nm $ f d b)) ks as
     in
     subKeys "System"
     [ ("M-q" , addName "Restart XMonad" $ spawn "pkill polybar; xmonad --restart")
@@ -120,10 +122,16 @@ myKeys conf = let
     , ("M-t", addName "Push back" $ withFocused $ windows . W.sink)
     ] ^++^
 
+    subKeys "Screens"
+    (
+       zipM "M-"  "Switch to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.view))
+    ++ zipM "M-S" "Move to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.shift))
+    ) ^++^
+
     subKeys "Workspaces"
     (
-       zipM "M-"  "View      ws" wsKeys [0..] (withNthWorkspace W.greedyView)
-    ++ zipM "M-S-" "Move      ws" wsKeys [0..] (withNthWorkspace W.shift)
+       zipM "M-"  "View ws" wsKeys [0..] (withNthWorkspace W.greedyView)
+    ++ zipM "M-S-" "Move ws" wsKeys [0..] (withNthWorkspace W.shift)
     ) ^++^
 
     subKeys "Layout Management"
@@ -138,15 +146,6 @@ myKeys conf = let
     , ("M-," , addName "Increase master windows" $ sendMessage (IncMasterN 1))
     , ("M-." , addName "Decrease master windows" $ sendMessage (IncMasterN (-1)))
     ]
-
-    --
-    -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
-    -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    --
-    -- [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-    --    | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-    --    , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
-
 
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
