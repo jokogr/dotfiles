@@ -18,6 +18,7 @@ let
     xcape
     xclip
     xmonad-log
+    xdotool
     # Fonts
     font-awesome-ttf
     iosevka
