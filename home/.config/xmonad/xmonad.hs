@@ -103,6 +103,7 @@ myKeys conf = let
     [ ("M-S-<Return>", addName "Terminal" $ spawn myTerminal)
     , ("M-s", addName "Launcher" $ shellPrompt myXPConfig)
     , ("M-d", addName "NSP Console" $ namedScratchpadAction scratchpads "console")
+    , ("M-c", addName "NSP Chat" $ namedScratchpadAction scratchpads "signalApp")
     , ("M-f", addName "Firefox" $ spawn "firefox")
     , ("M-S-f", addName "Chromium Incognito" $ spawn "chromium --incognito")
     , ("M-o", addName "Unstuck xdotool" $ spawn "xdotool keyup super&")
@@ -330,8 +331,13 @@ myConsole = "kitty --class=kittyScratch --title=console"
 consoleResource = "kittyScratch"
 isConsole = (className =? consoleResource)
 
+signalAppCommand = "chromium --app-id=bikioccmkafdpakkkcpdbppfkghcmihk"
+signalAppResource = "crx_bikioccmkafdpakkkcpdbppfkghcmihk"
+isSignalApp = (resource =? signalAppResource)
+
 scratchpads =
     [ (NS "console" myConsole isConsole (customFloating $ W.RationalRect 0 (1/50) 1 (3/4)))
+    , (NS "signalApp" signalAppCommand isSignalApp defaultFloating)
     ]
 
 {- IntelliJ popup fix from http://youtrack.jetbrains.com/issue/IDEA-74679#comment=27-417315 -}
