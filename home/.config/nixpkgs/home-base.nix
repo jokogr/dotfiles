@@ -10,6 +10,7 @@ let
     gnome3.zenity
     i3lock-fancy
     kitty
+    libnotify
     nitrogen
     rxvt_unicode-with-plugins
     pavucontrol
