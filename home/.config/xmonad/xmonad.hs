@@ -125,7 +125,7 @@ myKeys conf = let
     subKeys "Screens"
     (
        zipM "M-"  "Switch to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.view))
-    ++ zipM "M-S" "Move to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.shift))
+    ++ zipM "M-S-" "Move to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.shift))
     ) ^++^
 
     subKeys "Workspaces"
