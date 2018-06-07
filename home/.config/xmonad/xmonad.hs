@@ -9,6 +9,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.SetWMName
+import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.Accordion
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.Gaps
@@ -32,7 +33,8 @@ import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Run (hPutStrLn, runProcessWithInput, spawnPipe)
+import XMonad.Util.NamedWindows
+import XMonad.Util.Run
 import XMonad.Util.Scratchpad
 import XMonad.Util.SpawnOnce
 import Graphics.X11.ExtraTypes.XF86
@@ -390,6 +392,14 @@ myStartupHook maybeBarMonitor = do
 
 myTerminal = "urxvtc"
 
+data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
+
+instance UrgencyHook LibNotifyUrgencyHook where
+    urgencyHook LibNotifyUrgencyHook w = do
+        name     <- getName w
+        Just idx <- fmap (W.findTag w) $ gets windowset
+        safeSpawn "notify-send" [show name, "workspace " ++ idx]
+
 main :: IO ()
 main = do
     barMonitor <- getBarMonitor
@@ -398,6 +408,7 @@ main = do
         [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
     xmonad
         $ withNavigation2DConfig myNav2DConf
+        $ withUrgencyHook LibNotifyUrgencyHook
         $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
         $ ewmh
         $ def
