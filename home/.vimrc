@@ -34,6 +34,8 @@ endif
 Plug 'pangloss/vim-javascript'
 Plug 'plasticboy/vim-markdown'
 
+Plug 'lambdalisue/suda.vim'
+
 call plug#end()
 
 filetype plugin indent on
@@ -171,7 +173,8 @@ nnoremap <leader>c :cclose<bar>lclose<cr>
 inoremap <C-d>     <C-^>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! w !sudo tee > /dev/null %
+"cmap w!! w !sudo tee > /dev/null %
+cmap w!! w suda://%
 
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
