@@ -37,9 +37,9 @@ let
     filezilla
     skrooge
     vlc
-    (wine.override { wineBuild = "wineWow"; })
+    (wine.override { wineBuild = "wineWow"; netapiSupport = true; })
     # FIXME add overlays and support them in jobs.nix
-    (winetricks.override { wine = wine.override { wineBuild = "wineWow"; }; })
+    (winetricks.override { wine = wine.override { wineBuild = "wineWow"; netapiSupport = true;}; })
     gnome3.dconf
     gnome3.vinagre
     jetbrains.idea-ultimate
