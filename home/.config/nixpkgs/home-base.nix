@@ -96,4 +96,9 @@ in {
     pkgs.lib.optionals sysconfig.services.xserver.enable
       desktopEnvironmentApps;
 
+  home.extraProfileCommands = ''
+    if [[ -d "$out/share/applications" ]] ; then
+      ${pkgs.desktop-file-utils}/bin/update-desktop-database $out/share/applications
+    fi
+  '';
 }
