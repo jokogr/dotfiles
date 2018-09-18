@@ -1,8 +1,6 @@
 #!/bin/sh
 # vim:set et sw=2:
 
-xsetroot -cursor_name left_ptr
-
 setxkbmap "us,gr" -option terminate:ctrl_alt_bksp,grp:alt_space_toggle,ctrl:nocaps
 
 [ ! -x "`which bindkeys 2>/dev/null`" ] || xbindkeys -n &

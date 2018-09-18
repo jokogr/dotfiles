@@ -30,6 +30,7 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import XMonad.Util.Cursor
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
@@ -375,6 +376,7 @@ myManageHook =
 
 myStartupHook :: Maybe String -> X ()
 myStartupHook maybeBarMonitor = do
+    setDefaultCursor xC_left_ptr
     spawnOnce "wmname LG3D"
     spawnOnce "xset +dpms"
     spawnOnce "xset dpms 0 0 300"
