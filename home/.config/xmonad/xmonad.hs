@@ -175,7 +175,7 @@ myWorkspaces :: [WorkspaceId]
 myWorkspaces = [ "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 topbar :: Dimension
-gap :: Int
+gap :: Integer
 myFont, myWideFont, colorBlack, colorBlackAlt, colorBlue, colorGray,
   colorGrayAlt, colorWhite, base02, base03, blue, red, yellow, active :: String
 myFont               = "xft:Roboto Condensed:style=Regular:pixelsize=16"
@@ -274,11 +274,10 @@ myLayout = showWorkspaceName
 
         addTopBar         = noFrillsDeco shrinkText topBarTheme
 
-        mySpacing         = spacing gap
-        mySmallSpacing    = spacing sGap
+        squareBorder n    = Border n n n n
+        mySpacing         = spacingRaw False (squareBorder gap) True (squareBorder gap) True
         sGap              = quot gap 2
-        myGaps            = gaps [(U, gap),(D, gap),(L, gap),(R, gap)]
-        mySmallGaps       = gaps [(U, sGap),(D, sGap),(L, sGap),(R, sGap)]
+        mySmallSpacing    = spacingRaw False (squareBorder sGap) True (squareBorder sGap) True
 
         flex = trimNamed 5 "Flex"
             $ avoidStruts
@@ -288,10 +287,10 @@ myLayout = showWorkspaceName
             $ subLayout [] (Simplest ||| Accordion)
             $ ifWider smallMonResWidth wideLayouts standardLayouts
             where
-                wideLayouts = myGaps $ mySpacing
+                wideLayouts = mySpacing
                     $ (suffixed "Wide 3Col" $ ThreeColMid 1 (1/20) (1/2))
                   ||| (trimSuffixed 1 "Wide BSP" $ hiddenWindows emptyBSP)
-                standardLayouts = mySmallGaps $ mySmallSpacing
+                standardLayouts = mySmallSpacing
                     $ (suffixed "Std 2/3" $ ResizableTall 1 (1/20) (2/3) [])
                   ||| (suffixed "Std 1/2" $ ResizableTall 1 (1/20) (1/2) [])
 
