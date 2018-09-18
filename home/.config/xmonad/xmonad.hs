@@ -199,7 +199,7 @@ myNormalBorderColor  = colorBlackAlt
 myFocusedBorderColor = colorGray
 
 myXPConfig :: XPConfig
-myXPConfig = defaultXPConfig
+myXPConfig = def
     { font               = myFont
     , bgColor            = colorBlack
     , fgColor            = colorWhite
@@ -215,7 +215,7 @@ myXPConfig = defaultXPConfig
     }
 
 myTabTheme :: Theme
-myTabTheme = defaultTheme
+myTabTheme = def
     { fontName            = myFont
     , activeColor         = active
     , inactiveColor       = base02
@@ -315,8 +315,8 @@ myLogHook dbus = def
     , ppVisible = wrap "%{B#88000000}%{u#808080} " " %{-u}%{B-}"
     , ppHidden = wrap " " " " . wrapClickWorkspace
     , ppHiddenNoWindows = wrap "%{F#44ffffff} " " %{F-}" . wrapClickWorkspace
-    , ppSort = fmap (namedScratchpadFilterOutWorkspace .) (ppSort defaultPP)
-		}
+    , ppSort = fmap (namedScratchpadFilterOutWorkspace .) (ppSort def)
+    }
 
 dbusOutput :: D.Client -> String -> IO ()
 dbusOutput dbus str = do
