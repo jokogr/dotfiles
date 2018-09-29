@@ -59,7 +59,7 @@ let
     collection-latexrecommended collection-metapost collection-publishers
     collection-xetex xindy glossaries;
     })
-    biber python3Packages.pygments
+    python3Packages.pygments
   ];
 
 in {
