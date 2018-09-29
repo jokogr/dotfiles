@@ -24,6 +24,9 @@ let
     font-awesome-ttf
     iosevka
     roboto
+  ] ++ [ # KDE themes
+    libsForQt5.qtstyleplugin-kvantum
+    adapta-kde-theme
   ];
 
   desktopApps = with pkgs; [
@@ -95,6 +98,25 @@ in {
     pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
       desktopEnvironmentApps;
+
+  gtk = pkgs.lib.mkIf sysconfig.services.xserver.enable {
+    enable = true;
+    font.name = "Roboto 11";
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Adapta-Nokto";
+    };
+    theme = {
+      package = pkgs.adapta-gtk-theme;
+      name = "Adapta-Nokto-Eta";
+    };
+    gtk2.extraConfig = ''
+      gtk-cursor-theme-name = breeze_cursors
+    '';
+    gtk3.extraConfig = {
+      gtk-cursor-theme-name = "breeze_cursors";
+    };
+  };
 
   home.extraProfileCommands = ''
     if [[ -d "$out/share/applications" ]] ; then

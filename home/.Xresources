@@ -24,4 +24,4 @@ URxvt.url-launcher: xdg-open
 URxvt.matcher.button: 1
 URxvt.colorUL: base0A
 
-Xcursor.theme: Human
+Xcursor.theme: breeze_cursors
