@@ -25,6 +25,13 @@ let
     iosevka
     roboto
     signal-desktop
+    (vscode-with-extensions.override {
+      vscodeExtensions = with vscode-extensions; [
+        ms-vscode.cpptools
+        ms-python.python
+      ];
+    })
+    (python36.withPackages (ps: with ps; [ pylint rope ]))
   ] ++ [ # KDE themes
     libsForQt5.qtstyleplugin-kvantum
     adapta-kde-theme
@@ -51,6 +58,7 @@ let
     pcmanfm
     gvfs
     virtmanager
+    cura
   ];
 
   latexPackages = with pkgs; [
