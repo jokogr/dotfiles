@@ -332,8 +332,8 @@ myConsole = "kitty --class=kittyScratch --title=console"
 consoleResource = "kittyScratch"
 isConsole = (className =? consoleResource)
 
-signalAppCommand = "chromium --app-id=bikioccmkafdpakkkcpdbppfkghcmihk"
-signalAppResource = "crx_bikioccmkafdpakkkcpdbppfkghcmihk"
+signalAppCommand = "signal-desktop"
+signalAppResource = "signal"
 isSignalApp = (resource =? signalAppResource)
 
 scratchpads =
