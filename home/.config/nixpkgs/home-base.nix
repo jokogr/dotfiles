@@ -24,6 +24,7 @@ let
     font-awesome-ttf
     iosevka
     roboto
+    signal-desktop
   ] ++ [ # KDE themes
     libsForQt5.qtstyleplugin-kvantum
     adapta-kde-theme
