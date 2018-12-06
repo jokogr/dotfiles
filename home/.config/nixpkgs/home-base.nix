@@ -31,7 +31,7 @@ let
         ms-python.python
       ];
     })
-    (python36.withPackages (ps: with ps; [ pylint rope ]))
+    (python37.withPackages (ps: with ps; [ pylint rope ]))
   ] ++ [ # KDE themes
     libsForQt5.qtstyleplugin-kvantum
     adapta-kde-theme
