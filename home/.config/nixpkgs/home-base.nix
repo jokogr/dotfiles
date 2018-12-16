@@ -22,7 +22,7 @@ let
     xdotool
     # Fonts
     font-awesome-ttf
-    iosevka
+    (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
     roboto
     signal-desktop
     (vscode-with-extensions.override {
