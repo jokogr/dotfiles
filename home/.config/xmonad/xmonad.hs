@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeSynonymInstances, MultiParamTypeClasses, DeriveDataTypeable,
+{-# LANGUAGE TypeSynonymInstances, MultiParamTypeClasses,
     NoMonomorphismRestriction, FlexibleContexts #-}
 
 import XMonad hiding ( (|||) ) -- get III from X.L.LayoutCombinators
@@ -40,6 +40,8 @@ import XMonad.Util.Scratchpad
 import XMonad.Util.SpawnOnce
 import Graphics.X11.ExtraTypes.XF86
 
+import Control.Applicative ((<$>))
+import Control.Monad ((>=>))
 import Data.Char
 import Data.Monoid
 import Data.List
@@ -96,7 +98,7 @@ myKeys conf = let
     in
     subKeys "System"
     [ ("M-q" , addName "Restart XMonad" $ spawn "pkill polybar; xmonad --restart")
-    , ("M-S-q" , addName "Quit XMonad" $ io (exitWith ExitSuccess))
+    , ("M-S-q" , addName "Quit XMonad" $ io exitSuccess)
     ] ^++^
 
     subKeys "Actions"
@@ -115,7 +117,7 @@ myKeys conf = let
     ] ^++^
 
     subKeys "Windows"
-    [ ("M-S-c", addName "Kill" $ kill)
+    [ ("M-S-c", addName "Kill" kill)
     , ("M-<Tab>", addName "Navigate D" $ windows W.focusDown)
     , ("M-S-<Tab>", addName "Navigate U" $ windows W.focusUp)
     , ("M-m", addName "Navigate M" $ windows W.focusMaster)
@@ -127,8 +129,8 @@ myKeys conf = let
 
     subKeys "Screens"
     (
-       zipM "M-"  "Switch to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.view))
-    ++ zipM "M-S-" "Move to screen" screenKeys [0..] (\ws -> screenWorkspace ws >>= flip whenJust (windows . W.shift))
+       zipM "M-"  "Switch to screen" screenKeys [0..] (screenWorkspace >=> flip whenJust (windows . W.view))
+    ++ zipM "M-S-" "Move to screen" screenKeys [0..] (screenWorkspace >=> flip whenJust (windows . W.shift))
     ) ^++^
 
     subKeys "Workspaces"
@@ -139,7 +141,7 @@ myKeys conf = let
 
     subKeys "Layout Management"
     [ ("M-<Space>" , addName "Cycle all layouts" $ sendMessage NextLayout)
-    , ("M-n" , addName "Resize" $ refresh)
+    , ("M-n" , addName "Resize" refresh)
     , ("M-S-x" , addName "Reflect" $ sendMessage $ XMonad.Layout.MultiToggle.Toggle REFLECTX)
     ] ^++^
 
@@ -153,18 +155,18 @@ myKeys conf = let
 ------------------------------------------------------------------------
 -- Mouse bindings: default actions bound to mouse events
 --
-myMouseBindings (XConfig {XMonad.modMask = modm}) = M.fromList $
+myMouseBindings XConfig{XMonad.modMask = modm} = M.fromList
 
     -- mod-button1, Set the window to floating mode and move by dragging
-    [ ((modm, button1), (\w -> focus w >> mouseMoveWindow w
-                                       >> windows W.shiftMaster))
+    [ ((modm, button1), \w -> focus w >> mouseMoveWindow w
+                                      >> windows W.shiftMaster)
 
     -- mod-button2, Raise the window to the top of the stack
-    , ((modm, button2), (\w -> focus w >> windows W.shiftMaster))
+    , ((modm, button2), \w -> focus w >> windows W.shiftMaster)
 
     -- mod-button3, Set the window to floating mode and resize by dragging
-    , ((modm, button3), (\w -> focus w >> mouseResizeWindow w
-                                       >> windows W.shiftMaster))
+    , ((modm, button3), \w -> focus w >> mouseResizeWindow w
+                                      >> windows W.shiftMaster)
 
     -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]
@@ -265,12 +267,12 @@ myLayout = showWorkspaceName
         showWorkspaceName = showWName' myShowWNameTheme
         reflectToggle     = mkToggle (single REFLECTX)
 
-        named n           = renamed [(XMonad.Layout.Renamed.Replace n)]
-        trimNamed w n     = renamed [(XMonad.Layout.Renamed.CutWordsLeft w),
-                                     (XMonad.Layout.Renamed.PrependWords n)]
-        suffixed n        = renamed [(XMonad.Layout.Renamed.AppendWords n)]
-        trimSuffixed w n  = renamed [(XMonad.Layout.Renamed.CutWordsRight w),
-                                     (XMonad.Layout.Renamed.AppendWords n)]
+        named n           = renamed [XMonad.Layout.Renamed.Replace n]
+        trimNamed w n     = renamed [XMonad.Layout.Renamed.CutWordsLeft w,
+                                     XMonad.Layout.Renamed.PrependWords n]
+        suffixed n        = renamed [XMonad.Layout.Renamed.AppendWords n]
+        trimSuffixed w n  = renamed [XMonad.Layout.Renamed.CutWordsRight w,
+                                     XMonad.Layout.Renamed.AppendWords n]
 
         addTopBar         = noFrillsDeco shrinkText topBarTheme
 
@@ -288,17 +290,16 @@ myLayout = showWorkspaceName
             $ ifWider smallMonResWidth wideLayouts standardLayouts
             where
                 wideLayouts = mySpacing
-                    $ (suffixed "Wide 3Col" $ ThreeColMid 1 (1/20) (1/2))
-                  ||| (trimSuffixed 1 "Wide BSP" $ hiddenWindows emptyBSP)
+                    $ suffixed "Wide 3Col" (ThreeColMid 1 (1/20) (1/2))
+                  ||| trimSuffixed 1 "Wide BSP" (hiddenWindows emptyBSP)
                 standardLayouts = mySmallSpacing
-                    $ (suffixed "Std 2/3" $ ResizableTall 1 (1/20) (2/3) [])
-                  ||| (suffixed "Std 1/2" $ ResizableTall 1 (1/20) (1/2) [])
+                    $ suffixed "Std 2/3" (ResizableTall 1 (1/20) (2/3) [])
+                  ||| suffixed "Std 1/2" (ResizableTall 1 (1/20) (1/2) [])
 
         tabs = named "Tabs"
             $ avoidStruts
             $ addTopBar
-            $ addTabs shrinkText myTabTheme
-            $ Simplest
+            $ addTabs shrinkText myTabTheme Simplest
 
 wrapClickWorkspace ws = "%{A:" ++ xdo index ++ ":}" ++ ws ++ "%{A}"
     where
@@ -330,15 +331,15 @@ dbusOutput dbus str = do
 
 myConsole = "kitty --class=kittyScratch --title=console"
 consoleResource = "kittyScratch"
-isConsole = (className =? consoleResource)
+isConsole = className =? consoleResource
 
 signalAppCommand = "signal-desktop"
 signalAppResource = "signal"
-isSignalApp = (resource =? signalAppResource)
+isSignalApp = resource =? signalAppResource
 
 scratchpads =
-    [ (NS "console" myConsole isConsole (customFloating $ W.RationalRect 0 (1/50) 1 (3/4)))
-    , (NS "signalApp" signalAppCommand isSignalApp defaultFloating)
+    [ NS "console" myConsole isConsole (customFloating $ W.RationalRect 0 (1/50) 1 (3/4))
+    , NS "signalApp" signalAppCommand isSignalApp defaultFloating
     ]
 
 {- IntelliJ popup fix from http://youtrack.jetbrains.com/issue/IDEA-74679#comment=27-417315 -}
@@ -357,7 +358,7 @@ myManageHook =
         manageSpecific = composeAll . concat $
             [ [className =? "stalonetray"    --> doIgnore ]
             , [title     =? "Clip to Evernote" --> doIgnore ]
-            , [className =? c --> doShift (myWorkspaces !! 0) | c <- myWebS ]
+            , [className =? c --> doShift (head myWorkspaces) | c <- myWebS ]
             , [className =? "MPlayer"        --> doFloat  ]
             , [className =? "Gimp"           --> doFloat  ]
             , [resource  =? "desktop_window" --> doIgnore ]
@@ -398,7 +399,7 @@ data LibNotifyUrgencyHook = LibNotifyUrgencyHook deriving (Read, Show)
 instance UrgencyHook LibNotifyUrgencyHook where
     urgencyHook LibNotifyUrgencyHook w = do
         name     <- getName w
-        Just idx <- fmap (W.findTag w) $ gets windowset
+        Just idx <- W.findTag w <$> gets windowset
         safeSpawn "notify-send" [show name, "workspace " ++ idx]
 
 main :: IO ()
