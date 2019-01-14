@@ -131,7 +131,7 @@ in {
     font.name = "Roboto 11";
     iconTheme = {
       package = pkgs.papirus-icon-theme;
-      name = "Papirus-Adapta-Nokto";
+      name = "Papirus-Dark";
     };
     theme = {
       package = pkgs.adapta-gtk-theme;
