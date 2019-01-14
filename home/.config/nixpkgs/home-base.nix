@@ -4,6 +4,15 @@ let
 
   sysconfig = config.lib.myConfig;
 
+  cliTools = with pkgs; [
+    direnv
+    exa
+    jq
+    httpie
+    fd
+    bat
+  ];
+
   desktopEnvironmentApps = with pkgs; [
     copyq
     dunst
@@ -59,6 +68,7 @@ let
     gvfs
     virtmanager
     cura
+    xorg.xhost
   ];
 
   latexPackages = with pkgs; [
@@ -69,6 +79,12 @@ let
     collection-xetex xindy glossaries;
     })
     python3Packages.pygments
+  ];
+
+  debuggingTools = with pkgs; [
+    gdb
+    pwndbg
+    radare2
   ];
 
 in {
@@ -86,10 +102,12 @@ in {
     https://github.com/rycee/home-manager/archive/master.tar.gz;
 
   home.packages = with pkgs; [
-    direnv
-    exa
+    ansible
+    ansible-lint
+    docker-compose
+    kubectl
+    kubernetes-helm
     git-crypt
-    httpie
     sshfs
     mpd
     ncmpcpp
@@ -102,7 +120,7 @@ in {
     ranger
     youtube-dl
     wol
-  ] ++
+  ] ++ cliTools ++ debuggingTools ++
     pkgs.lib.optionals sysconfig.custom.hasLaTeX latexPackages ++
     pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
