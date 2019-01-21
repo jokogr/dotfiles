@@ -13,6 +13,17 @@ let
     bat
   ];
 
+  devopsTools = with pkgs; [
+    ansible
+    ansible-lint
+    docker-compose
+    google-cloud-sdk-gce
+    kubectl
+    kubernetes-helm
+    packer
+    vault
+  ];
+
   desktopEnvironmentApps = with pkgs; [
     copyq
     dunst
@@ -20,6 +31,7 @@ let
     i3lock-fancy
     kitty
     libnotify
+    mattermost-desktop
     nitrogen
     rxvt_unicode-with-plugins
     pavucontrol
@@ -102,11 +114,6 @@ in {
     https://github.com/rycee/home-manager/archive/master.tar.gz;
 
   home.packages = with pkgs; [
-    ansible
-    ansible-lint
-    docker-compose
-    kubectl
-    kubernetes-helm
     git-crypt
     sshfs
     mpd
@@ -120,7 +127,7 @@ in {
     ranger
     youtube-dl
     wol
-  ] ++ cliTools ++ debuggingTools ++
+  ] ++ cliTools ++ debuggingTools ++ devopsTools ++
     pkgs.lib.optionals sysconfig.custom.hasLaTeX latexPackages ++
     pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
