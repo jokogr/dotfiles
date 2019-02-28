@@ -90,6 +90,10 @@ fd() {
     && cd "$DIR"
 }
 
+if [ -f "$HOME/.homesick/repos/dotfiles/zsh/autopair/autopair.zsh" ]; then
+  source "$HOME/.homesick/repos/dotfiles/zsh/autopair/autopair.zsh"
+fi
+
 test -d "$HOME/.fzf/shell" \
   && . "$HOME/.fzf/shell/completion.zsh" \
   && . "$HOME/.fzf/shell/key-bindings.zsh"
