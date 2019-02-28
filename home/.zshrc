@@ -3,28 +3,6 @@
 
 . "$HOME/.shrc"
 
-# Prompt
-autoload -Uz colors && colors
-
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git hg svn
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' get-revision true
-zstyle ':vcs_info:*' unstagedstr '!'
-zstyle ':vcs_info:hg*' branchformat "%b"
-zstyle ':vcs_info:hg*' hgrevformat "%r"
-zstyle ':vcs_info:hg*' get-unapplied true
-zstyle ':vcs_info:hg*' formats "(%s) [%i%u %b %m]"
-zstyle ':vcs_info:hg*' actionformats "(%s|%a) [%i%u %b %m]"
-zstyle ':vcs_info:hg*' patch-format "mq(%g):%n/%c %p"
-zstyle ':vcs_info:hg*' nopatch-format "mq(%g):%n/%c %p"
-
-precmd() { vcs_info }
-setopt prompt_subst
-PROMPT='%{$fg[green]%}%n@%m%{$reset_color%} %{$fg[blue]%}%~%{$reset_color%}\
- ${vcs_info_msg_0_}
-%# '
-
 # History
 HISTSIZE=200
 HISTFILE=~/.zsh_history
@@ -38,6 +16,12 @@ setopt extendedglob
 source $HOME/.homesick/repos/homeshick/homeshick.sh
 typeset -U fpath
 fpath+=$HOME/.homesick/repos/homeshick/completions
+fpath+=$HOME/.zfunctions
+
+autoload -U promptinit; promptinit
+PURE_GIT_PULL=0
+PURE_GIT_UNTRACKED_DIRTY=0
+prompt pure
 
 # Completion
 zstyle ':completion:*' menu select
