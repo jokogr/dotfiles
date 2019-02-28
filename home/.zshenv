@@ -40,8 +40,3 @@ if [ -d "$HOME/.node_modules" ]; then
   NPM_CONFIG_PREFIX="$HOME/.node_modules"
   export NPM_CONFIG_PREFIX
 fi
-
-# set up SSH agent socket symlink
-if test "$SSH_AUTH_SOCK" ; then
-    ln -sf $SSH_AUTH_SOCK ~/.ssh/ssh_auth_sock
-fi
