@@ -36,6 +36,8 @@ if [ -n "$PS1" ]; then
 
   alias ffwprof='firefox -ProfileManager -no-remote'
 
+  alias chrmp='chromium --incognito --proxy-server="socks5://localhost:8123" --host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"'
+
   alias socks_start='ssh -D 8123 -fCqN'
   alias socks_stop='pkill -f "ssh -D 8123 -fCqN *"'
 
