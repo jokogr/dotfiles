@@ -4,3 +4,6 @@
 [submodule "zsh/zsh-autopair"]
 	path = zsh/autopair
 	url = https://github.com/hlissner/zsh-autopair.git
+[submodule "zsh/fast-syntax-highlighting"]
+	path = zsh/fsh
+	url = https://github.com/zdharma/fast-syntax-highlighting.git

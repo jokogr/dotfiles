@@ -94,8 +94,12 @@ if [ -f "$HOME/.homesick/repos/dotfiles/zsh/autopair/autopair.zsh" ]; then
   source "$HOME/.homesick/repos/dotfiles/zsh/autopair/autopair.zsh"
 fi
 
+test -f "$HOME/.homesick/repos/dotfiles/zsh/fsh/fast-syntax-highlighting.plugin.zsh" &&
+  source "$HOME/.homesick/repos/dotfiles/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
+
 test -d "$HOME/.fzf/shell" \
   && . "$HOME/.fzf/shell/completion.zsh" \
   && . "$HOME/.fzf/shell/key-bindings.zsh"
 
 test -f "$HOME/.zshrc.local" && . "$HOME/.zshrc.local"
+
