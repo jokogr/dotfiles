@@ -101,9 +101,8 @@ let
 
 in {
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
+  nixpkgs.config = import ./nixpkgs-config.nix;
+  xdg.configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
 
   home.sessionVariables = {
     GIO_EXTRA_MODULES = "${pkgs.gvfs}/lib/gio/modules";
