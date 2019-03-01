@@ -4,10 +4,10 @@
 . "$HOME/.shrc"
 
 # History
-HISTSIZE=200
+HISTSIZE=10000
 HISTFILE=~/.zsh_history
-SAVEHIST=200
-setopt histignoredups histreduceblanks incappendhistory
+SAVEHIST=10000
+setopt hist_ignore_dups hist_reduce_blanks inc_append_history hist_ignore_space
 
 # Misc
 setopt extendedglob
