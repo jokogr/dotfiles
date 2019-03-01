@@ -94,6 +94,8 @@ if [ -f "$HOME/.homesick/repos/dotfiles/zsh/autopair/autopair.zsh" ]; then
   source "$HOME/.homesick/repos/dotfiles/zsh/autopair/autopair.zsh"
 fi
 
+source ~/.zsh-termsupport
+
 test -f "$HOME/.homesick/repos/dotfiles/zsh/fsh/fast-syntax-highlighting.plugin.zsh" &&
   source "$HOME/.homesick/repos/dotfiles/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
 
