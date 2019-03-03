@@ -52,7 +52,6 @@ let
         ms-python.python
       ];
     })
-    (python37.withPackages (ps: with ps; [ pylint rope ]))
   ] ++ [ # KDE themes
     libsForQt5.qtstyleplugin-kvantum
     adapta-kde-theme
@@ -125,7 +124,7 @@ in {
     neomutt
     offlineimap
     pgcli
-    python3Packages.yapf
+    (python37.withPackages (ps: with ps; [ pylint python-language-server rope yapf ]))
     ranger
     youtube-dl
     wol
