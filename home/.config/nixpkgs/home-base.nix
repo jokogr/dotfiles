@@ -17,7 +17,7 @@ let
     ansible
     ansible-lint
     docker-compose
-    google-cloud-sdk-gce
+    google-cloud-sdk
     kubectl
     kubernetes-helm
     packer
