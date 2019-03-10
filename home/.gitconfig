@@ -1,10 +1,18 @@
+[core]
+	excludesfile = ~/.cvsignore
+  autocrlf = input
+[color]
+	ui = auto
 [user]
 	email = ioannis.koutras@gmail.com
 	name = Ioannis Koutras
 [alias]
+  comma = commit --amend
+  get = clone --recursive
 	lg = log --graph --all --decorate --oneline
-[color]
-	ui = auto
+  uncommit = reset --soft HEAD^
+[hub]
+  protocol = git
 [sendemail]
 	from = Ioannis Koutras <ioannis.koutras@gmail.com>
 	smtpencryption = tls
@@ -12,12 +20,22 @@
 	smtpuser = ioannis.koutras@gmail.com
 	smtpserverport = 587
 	chainreplyto = false
-[push]
-	default = simple
-[core]
-	excludesfile = ~/.cvsignore
-  autocrlf = input
-[pull]
-	rebase = true
 [commit]
 	template = ~/.config/git-commit-template.txt
+[push]
+	default = simple
+[pull]
+	rebase = true
+  autostash = true
+[rebase]
+  autosetuprebase = always
+[rerere]
+  enabled = true
+[diff "sopsdiffer"]
+	textconv = sops -d
+[includeIf "gitdir:~/work/"]
+  path = ~/work/.gitconfig
+[url "ssh://git@git.joko.gr:10022/joko/"]
+  insteadOf = gogs:
+[url "git@github.com:jokogr/"]
+  insteadOf = gh:

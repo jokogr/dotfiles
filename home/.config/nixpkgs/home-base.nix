@@ -7,6 +7,8 @@ let
   cliTools = with pkgs; [
     direnv
     exa
+    gitAndTools.hub
+    gitAndTools.tig
     jq
     httpie
     fd
@@ -21,6 +23,7 @@ let
     kubectl
     kubernetes-helm
     packer
+    sops
     vault
   ];
 

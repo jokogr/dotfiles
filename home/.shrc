@@ -30,6 +30,12 @@ if [ -n "$PS1" ]; then
 
   alias j='jobs'
 
+  if [[ -n ${commands[hub]} ]]; then
+    alias git='noglob hub'
+  else
+    alias git='noglob git'
+  fi
+
   alias gst='git status'
 
   alias verynice='ionice -c3 nice -n 15'
