@@ -18,9 +18,11 @@ URxvt.secondaryScroll: 0
 URxvt*skipBuiltinGlyphs: true
 *font: xft:Iosevka Term:style=Regular:size=14,xft:Symbola:style=Regular:size=26
 
-URxvt.perl-ext-common: default,matcher
+URxvt.perl-ext-common: default,matcher,newterm
 URxvt.url-launcher: xdg-open
 URxvt.matcher.button: 1
 URxvt.colorUL: base0A
+
+URxvt.keysym.C-S-N: perl:newterm
 
 Xcursor.theme: breeze_cursors
