@@ -6,7 +6,6 @@ Plug 'w0ng/vim-hybrid'
 Plug 'junegunn/vim-emoji'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install --bin' }
 Plug 'junegunn/fzf.vim'
-Plug 'ervandew/supertab'
 Plug 'tpope/vim-commentary'
 Plug 'lervag/vimtex'
 Plug 'mileszs/ack.vim'

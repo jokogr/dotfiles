@@ -10,6 +10,7 @@ let
     gitAndTools.hub
     gitAndTools.tig
     jq
+    neovim
     httpie
     fd
     bat
