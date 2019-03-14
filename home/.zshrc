@@ -96,6 +96,20 @@ fi
 
 source ~/.zsh-termsupport
 
+function kubeman() {
+  function get_cluster_short() {
+    echo "$1" | cut -d _ -f4
+  }
+
+  test -f "$HOME/.homesick/repos/dotfiles/zsh/kube-ps1/kube-ps1.sh" &&
+    source "$HOME/.homesick/repos/dotfiles/zsh/kube-ps1/kube-ps1.sh"
+
+  KUBE_PS1_NS_ENABLE=false
+  KUBE_PS1_SYMBOL_ENABLE=false
+  KUBE_PS1_CLUSTER_FUNCTION=get_cluster_short
+  RPROMPT='$(kube_ps1)'$RPROMPT
+}
+
 test -f "$HOME/.homesick/repos/dotfiles/zsh/fsh/fast-syntax-highlighting.plugin.zsh" &&
   source "$HOME/.homesick/repos/dotfiles/zsh/fsh/fast-syntax-highlighting.plugin.zsh"
 

@@ -7,3 +7,6 @@
 [submodule "zsh/fast-syntax-highlighting"]
 	path = zsh/fsh
 	url = https://github.com/zdharma/fast-syntax-highlighting.git
+[submodule "zsh/kube-ps1"]
+	path = zsh/kube-ps1
+	url = https://github.com/jonmosco/kube-ps1
