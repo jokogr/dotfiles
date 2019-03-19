@@ -103,6 +103,7 @@ myKeys conf = let
 
     subKeys "Actions"
     [ ("M-S-l", addName "Lock screen" $ spawn "i3lock-fancy -gp")
+    , ("M-C-4", addName "Capture a rectangular screen region" $ spawn "spectacle -r")
     , ("M-p", addName "Toggle monitors" $ spawn "toggleDisplayMode.sh")
     ] ^++^
 
