@@ -33,6 +33,7 @@ let
     dunst
     gnome3.zenity
     i3lock-fancy
+    kdeApplications.spectacle
     kitty
     libnotify
     mattermost-desktop
