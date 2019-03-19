@@ -1,5 +1,4 @@
 [(self: super: {
-  pgcli = (super.pgcli.overrideAttrs (oldAttrs: { doCheck = false; }));
   neovim =
     let myVimBundle = with super.vimPlugins; {
       start = [
