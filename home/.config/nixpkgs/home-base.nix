@@ -55,6 +55,7 @@ let
       vscodeExtensions = with vscode-extensions; [
         ms-vscode.cpptools
         ms-python.python
+        vscodevim.vim
       ];
     })
   ] ++ [ # KDE themes
@@ -163,4 +164,6 @@ in {
       ${pkgs.desktop-file-utils}/bin/update-desktop-database $out/share/applications
     fi
   '';
+
+  home.stateVersion = "18.09";
 }
