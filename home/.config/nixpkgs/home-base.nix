@@ -46,6 +46,7 @@ let
     xclip
     xmonad-log
     xdotool
+    yubioath-desktop
     # Fonts
     font-awesome-ttf
     (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
