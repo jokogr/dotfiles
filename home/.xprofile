@@ -1,7 +1,0 @@
-# ~/.xprofile
-
-. "$HOME/.profile"
-
-[ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
-
-export _JAVA_AWT_WM_NONREPARENTING=1
