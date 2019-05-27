@@ -97,7 +97,7 @@ myKeys conf = let
     zipM  m nm ks as f = zipWith (\k d -> (m ++ k, addName nm $ f d)) ks as
     in
     subKeys "System"
-    [ ("M-q" , addName "Restart XMonad" $ spawn "pkill polybar; xmonad --restart")
+    [ ("M-q" , addName "Restart XMonad" $ spawn "xmonad --restart")
     , ("M-S-q" , addName "Quit XMonad" $ io exitSuccess)
     ] ^++^
 
@@ -384,8 +384,8 @@ myStartupHook maybeBarMonitor = do
     spawnOnce "xrdb -I$HOME $HOME/.Xresources && test -f ~/.Xresources.local && xrdb -merge ~/.Xresources.local"
     spawnOnce "nitrogen --restore"
     case maybeBarMonitor of
-      Nothing -> spawn $ "MONITOR=$(polybar -m|tail -1|sed -e 's/:.*$//g') polybar main"
-      Just barMonitor -> spawn $ "MONITOR=" ++ barMonitor ++ " polybar main"
+      Nothing -> spawn $ "MONITOR=$(polybar -m|tail -1|sed -e 's/:.*$//g') polybar --reload main"
+      Just barMonitor -> spawn $ "MONITOR=" ++ barMonitor ++ " polybar --reload main"
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
