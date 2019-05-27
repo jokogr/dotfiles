@@ -390,7 +390,6 @@ myStartupHook maybeBarMonitor = do
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
-    spawn "rm -f ~/.xmonad/xmonad.state"
     spawnOnce "copyq"
 
 myTerminal = "urxvtc"
