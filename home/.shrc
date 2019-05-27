@@ -40,7 +40,8 @@ if [ -n "$PS1" ]; then
 
   alias verynice='ionice -c3 nice -n 15'
 
-  alias ffwprof='firefox -ProfileManager -no-remote'
+  # Use "firefox -ProfileManager -no-remote" to create
+  alias ffwprof='firefox -P WithProxy8123 -no-remote'
 
   alias chrmp='chromium --incognito --proxy-server="socks5://localhost:8123" --host-resolver-rules="MAP * ~NOTFOUND , EXCLUDE localhost"'
 
