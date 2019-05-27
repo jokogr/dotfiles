@@ -384,7 +384,7 @@ myStartupHook maybeBarMonitor = do
     spawnOnce "xrdb -I$HOME $HOME/.Xresources && test -f ~/.Xresources.local && xrdb -merge ~/.Xresources.local"
     spawnOnce "nitrogen --restore"
     case maybeBarMonitor of
-      Nothing -> spawn "polybar main"
+      Nothing -> spawn $ "MONITOR=$(polybar -m|tail -1|sed -e 's/:.*$//g') polybar main"
       Just barMonitor -> spawn $ "MONITOR=" ++ barMonitor ++ " polybar main"
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
