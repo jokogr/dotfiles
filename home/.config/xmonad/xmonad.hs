@@ -386,7 +386,6 @@ myStartupHook maybeBarMonitor = do
     case maybeBarMonitor of
       Nothing -> spawn "polybar main"
       Just barMonitor -> spawn $ "MONITOR=" ++ barMonitor ++ " polybar main"
-    spawnOnce "polybar main"
     spawnOnce "urxvtd -q -o -f"
     spawnOnce "udiskie"
     spawnOnce "xscreensaver -no-splash"
