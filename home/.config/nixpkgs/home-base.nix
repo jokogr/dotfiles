@@ -41,8 +41,12 @@ let
     polybar
     wmname
     xclip
-    xmonad-log
     xdotool
+    xmonad-log
+    (xmonad-with-packages.override {
+      ghcWithPackages = haskellPackages.ghcWithPackages;
+      packages = self: with self; [ dbus xmonad-contrib xmonad-extras ];
+    })
     # Fonts
     font-awesome-ttf
     (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
