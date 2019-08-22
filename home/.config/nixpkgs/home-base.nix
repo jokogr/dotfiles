@@ -67,7 +67,6 @@ let
     kdiff3
     keepassx2-http
     libreoffice-fresh
-    mattermost-desktop
     pavucontrol
     pcmanfm
     signal-desktop
