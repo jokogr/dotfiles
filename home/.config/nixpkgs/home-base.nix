@@ -137,7 +137,7 @@ in {
     wol
   ] ++ cliTools ++ debuggingTools ++ devopsTools ++
     pkgs.lib.optionals sysconfig.custom.hasLaTeX latexPackages ++
-    pkgs.lib.optionals sysconfig.services.xserver.enable desktopApps ++
+    pkgs.lib.optionals sysconfig.custom.gui.enable desktopApps ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
       desktopEnvironmentApps;
 
