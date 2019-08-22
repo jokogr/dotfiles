@@ -34,24 +34,47 @@ let
     dunst
     gnome3.zenity
     i3lock-fancy
-    kdeApplications.spectacle
     kitty
     libnotify
-    mattermost-desktop
     nitrogen
     rxvt_unicode-with-plugins
-    pavucontrol
     polybar
     wmname
     xclip
     xmonad-log
     xdotool
-    yubioath-desktop
     # Fonts
     font-awesome-ttf
     (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
     roboto
+  ] ++ [ # KDE themes
+    libsForQt5.qtstyleplugin-kvantum
+    adapta-kde-theme
+  ];
+
+  desktopApps = with pkgs; [
+    calibre
+    chromium
+    cura
+    filezilla
+    firefox
+    gnome3.dconf
+    gnome3.vinagre
+    gwenview
+    gvfs
+    jetbrains.idea-ultimate
+    kdeApplications.spectacle
+    kdiff3
+    keepassx2-http
+    libreoffice-fresh
+    mattermost-desktop
+    pavucontrol
+    pcmanfm
     signal-desktop
+    siji
+    skrooge
+    virtmanager
+    vlc
     (vscode-with-extensions.override {
       vscodeExtensions = with vscode-extensions; [
         ms-vscode.cpptools
@@ -59,34 +82,12 @@ let
         vscodevim.vim
       ];
     })
-  ] ++ [ # KDE themes
-    libsForQt5.qtstyleplugin-kvantum
-    adapta-kde-theme
-  ];
-
-  desktopApps = with pkgs; [
-    firefox chromium
-    keepassx2-http
-    libreoffice-fresh
-    zathura
-    calibre
-    gwenview
-    siji
-    filezilla
-    skrooge
-    vlc
     (wine.override { wineBuild = "wineWow"; netapiSupport = true; })
     # FIXME add overlays and support them in jobs.nix
     (winetricks.override { wine = wine.override { wineBuild = "wineWow"; netapiSupport = true;}; })
-    gnome3.dconf
-    gnome3.vinagre
-    jetbrains.idea-ultimate
-    kdiff3
-    pcmanfm
-    gvfs
-    virtmanager
-    cura
     xorg.xhost
+    yubioath-desktop
+    zathura
   ];
 
   latexPackages = with pkgs; [
