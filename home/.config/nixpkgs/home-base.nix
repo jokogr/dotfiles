@@ -47,10 +47,6 @@ let
       ghcWithPackages = haskellPackages.ghcWithPackages;
       packages = self: with self; [ dbus xmonad-contrib xmonad-extras ];
     })
-    # Fonts
-    font-awesome-ttf
-    (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
-    roboto
   ] ++ [ # KDE themes
     libsForQt5.qtstyleplugin-kvantum
     adapta-kde-theme
@@ -91,6 +87,12 @@ let
     xorg.xhost
     yubioath-desktop
     zathura
+  ];
+
+  fontPackages = with pkgs; [
+    font-awesome-ttf
+    (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
+    roboto
   ];
 
   latexPackages = with pkgs; [
@@ -152,6 +154,7 @@ in {
   ] ++ cliTools ++ debuggingTools ++ devopsTools ++
     pkgs.lib.optionals sysconfig.custom.hasLaTeX latexPackages ++
     pkgs.lib.optionals sysconfig.custom.gui.enable desktopApps ++
+    pkgs.lib.optionals sysconfig.custom.gui.enable fontPackages ++
     pkgs.lib.optionals sysconfig.services.xserver.enable
       desktopEnvironmentApps;
 
