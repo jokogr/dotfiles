@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
 
@@ -110,6 +110,16 @@ let
   ];
 
 in {
+
+  imports = let
+    modulePath = "/home/joko/.config/nixpkgs/modules";
+    moduleDirContentsTry = builtins.tryEval (builtins.readDir modulePath);
+    moduleDirContents = if moduleDirContentsTry.success
+    then moduleDirContentsTry.value else {};
+    filteredModuleDirContents =
+      lib.filterAttrs (n: v: v == "file" ||  v == "symlink") moduleDirContents;
+    nixFiles = builtins.attrNames filteredModuleDirContents;
+  in map (nixFile: "${modulePath}/${nixFile}") nixFiles;
 
   nixpkgs.config = import ./nixpkgs-config.nix;
   xdg.configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
