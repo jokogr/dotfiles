@@ -7,9 +7,15 @@
 	email = ioannis.koutras@gmail.com
 	name = Ioannis Koutras
 [alias]
+  bclean = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+  branch-name = "!git rev-parse --abbrev-ref HEAD"
   comma = commit --amend
   get = clone --recursive
 	lg = log --graph --all --decorate --oneline
+  pr = "!f() { git fetch -fu ${2:-$(git remote |grep ^upstream || echo origin)} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+  pr-clean = "!git for-each-ref refs/heads/pr/* --format='%(refname)' | while read ref ; do branch=${ref#refs/heads/} ; git branch -D $branch ; done"
+  publish = "!git push -u origin $(git branch-name)"
+  sync = "!git checkout master && git pull upstream master && git push origin master"
   uncommit = reset --soft HEAD^
 [hub]
   protocol = git
