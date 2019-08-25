@@ -48,7 +48,7 @@ if [ -n "$PS1" ]; then
   alias socks_start='ssh -D 8123 -fCqN'
   alias socks_stop='pkill -f "ssh -D 8123 -fCqN *"'
 
-  export VISUAL EDITOR PAGER LESS
+  export VISUAL EDITOR LESS
 
   export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 
