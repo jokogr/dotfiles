@@ -117,5 +117,6 @@ test -d "$HOME/.fzf/shell" \
   && . "$HOME/.fzf/shell/completion.zsh" \
   && . "$HOME/.fzf/shell/key-bindings.zsh"
 
-test -f "$HOME/.zshrc.local" && . "$HOME/.zshrc.local"
+eval "$(direnv hook zsh)"
 
+test -f "$HOME/.zshrc.local" && . "$HOME/.zshrc.local"
