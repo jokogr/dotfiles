@@ -24,6 +24,7 @@ let
     docker-compose
     google-cloud-sdk
     kubectl
+    kubectx
     kubernetes-helm
     packer
     sops
