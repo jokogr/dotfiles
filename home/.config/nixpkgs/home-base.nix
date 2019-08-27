@@ -117,9 +117,8 @@ in {
 
   imports = let
     modulePath = "/home/joko/.config/nixpkgs/modules";
-    moduleDirContentsTry = builtins.tryEval (builtins.readDir modulePath);
-    moduleDirContents = if moduleDirContentsTry.success
-    then moduleDirContentsTry.value else {};
+    moduleDirContents = if builtins.pathExists modulePath
+    then builtins.readDir modulePath else {};
     filteredModuleDirContents =
       lib.filterAttrs (n: v: v == "file" ||  v == "symlink") moduleDirContents;
     nixFiles = builtins.attrNames filteredModuleDirContents;
