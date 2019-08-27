@@ -14,6 +14,7 @@ let
     httpie
     fd
     bat
+    parallel
     pass
   ];
 
