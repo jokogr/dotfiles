@@ -122,7 +122,8 @@ in {
     filteredModuleDirContents =
       lib.filterAttrs (n: v: v == "file" ||  v == "symlink") moduleDirContents;
     nixFiles = builtins.attrNames filteredModuleDirContents;
-  in map (nixFile: "${modulePath}/${nixFile}") nixFiles;
+  in if builtins.pathExists modulePath
+     then map (nixFile: "${modulePath}/${nixFile}") nixFiles else [ <dotfiles-sway/home/.config/nixpkgs/modules/sway.nix> ];
 
   nixpkgs.config = import ./nixpkgs-config.nix;
   xdg.configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
