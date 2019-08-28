@@ -160,7 +160,7 @@ in {
     pkgs.lib.optionals sysconfig.services.xserver.enable
       desktopEnvironmentApps;
 
-  gtk = pkgs.lib.mkIf sysconfig.services.xserver.enable {
+  gtk = pkgs.lib.mkIf sysconfig.custom.gui.enable {
     enable = true;
     font.name = "Roboto 11";
     iconTheme = {
