@@ -69,6 +69,7 @@ let
     kdiff3
     keepassx2-http
     libreoffice-fresh
+    okular
     pavucontrol
     pcmanfm
     signal-desktop
