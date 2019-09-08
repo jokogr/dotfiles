@@ -33,6 +33,7 @@ let
   ];
 
   desktopEnvironmentApps = with pkgs; [
+    arandr
     copyq
     dunst
     gnome3.zenity
