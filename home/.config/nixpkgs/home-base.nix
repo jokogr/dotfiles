@@ -21,6 +21,7 @@ let
   devopsTools = with pkgs; [
     ansible
     ansible-lint
+    cntr
     docker-compose
     google-cloud-sdk
     kubectl
