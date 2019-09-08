@@ -194,11 +194,6 @@ in {
     options = [ "terminate:ctrl_alt_bksp" "grp:alt_space_toggle" "ctrl:nocaps" ];
   };
 
-  services.xcape = pkgs.lib.mkIf sysconfig.services.xserver.enable {
-    enable = true;
-    mapExpression = { Control_L = "Escape"; };
-  };
-
   xsession = pkgs.lib.mkIf sysconfig.services.xserver.enable {
     enable = true;
     initExtra = ''
