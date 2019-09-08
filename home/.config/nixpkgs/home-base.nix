@@ -104,6 +104,7 @@ in {
   in if builtins.pathExists modulePath
      then map (nixFile: "${modulePath}/${nixFile}") nixFiles
      else [
+       <dotfiles/home/.config/nixpkgs/modules/lorri.nix>
        <dotfiles-sway/home/.config/nixpkgs/modules/sway.nix>
        <dotfiles-x11/home/.config/nixpkgs/modules/x11.nix>
      ];
