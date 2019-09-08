@@ -32,30 +32,6 @@ let
     vault
   ];
 
-  desktopEnvironmentApps = with pkgs; [
-    arandr
-    copyq
-    dunst
-    gnome3.zenity
-    i3lock-fancy
-    kitty
-    libnotify
-    nitrogen
-    rxvt_unicode-with-plugins
-    polybar
-    wmname
-    xclip
-    xdotool
-    xmonad-log
-    (xmonad-with-packages.override {
-      ghcWithPackages = haskellPackages.ghcWithPackages;
-      packages = self: with self; [ dbus xmonad-contrib xmonad-extras ];
-    })
-  ] ++ [ # KDE themes
-    libsForQt5.qtstyleplugin-kvantum
-    adapta-kde-theme
-  ];
-
   desktopApps = with pkgs; [
     calibre
     chromium
@@ -126,7 +102,11 @@ in {
       lib.filterAttrs (n: v: v == "file" ||  v == "symlink") moduleDirContents;
     nixFiles = builtins.attrNames filteredModuleDirContents;
   in if builtins.pathExists modulePath
-     then map (nixFile: "${modulePath}/${nixFile}") nixFiles else [ <dotfiles-sway/home/.config/nixpkgs/modules/sway.nix> ];
+     then map (nixFile: "${modulePath}/${nixFile}") nixFiles
+     else [
+       <dotfiles-sway/home/.config/nixpkgs/modules/sway.nix>
+       <dotfiles-x11/home/.config/nixpkgs/modules/x11.nix>
+     ];
 
   nixpkgs.config = import ./nixpkgs-config.nix;
   xdg.configFile."nixpkgs/config.nix".source = ./nixpkgs-config.nix;
@@ -159,9 +139,7 @@ in {
   ] ++ cliTools ++ debuggingTools ++ devopsTools ++
     pkgs.lib.optionals sysconfig.custom.hasLaTeX latexPackages ++
     pkgs.lib.optionals sysconfig.custom.gui.enable desktopApps ++
-    pkgs.lib.optionals sysconfig.custom.gui.enable fontPackages ++
-    pkgs.lib.optionals sysconfig.services.xserver.enable
-      desktopEnvironmentApps;
+    pkgs.lib.optionals sysconfig.custom.gui.enable fontPackages;
 
   gtk = pkgs.lib.mkIf sysconfig.custom.gui.enable {
     enable = true;
@@ -190,27 +168,4 @@ in {
 
   home.stateVersion = "18.09";
 
-  home.keyboard = pkgs.lib.mkIf sysconfig.services.xserver.enable {
-    layout = "us,gr";
-    variant = "altgr-intl,extended";
-    options = [ "terminate:ctrl_alt_bksp" "grp:alt_space_toggle" "ctrl:nocaps" ];
-  };
-
-  xsession = pkgs.lib.mkIf sysconfig.services.xserver.enable {
-    enable = true;
-    initExtra = ''
-      [ ! -x "`which bindkeys 2>/dev/null`" ] || xbindkeys -n &
-      [ ! -x "`which kbdd 2>/dev/null`" ] || kbdd -n &
-
-      [ ! -x "`which pulseaudio 2>/dev/null`" ] || pulseaudio --start
-    '';
-
-    windowManager.command = "xmonad";
-
-    profileExtra = ''
-      [ "$XDG_CURRENT_DESKTOP" = "KDE" ] || [ "$XDG_CURRENT_DESKTOP" = "GNOME" ] || export QT_QPA_PLATFORMTHEME="qt5ct"
-
-      export _JAVA_AWT_WM_NONREPARENTING=1
-    '';
-  };
 }
