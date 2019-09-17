@@ -36,6 +36,7 @@ if [ -n "$PS1" ]; then
     alias git='noglob git'
   fi
 
+  alias g='git'
   alias gpr='\git pr'
   alias gst='git status'
   alias gsy='\git sync'
