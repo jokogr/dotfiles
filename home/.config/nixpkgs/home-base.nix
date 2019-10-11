@@ -73,7 +73,7 @@ let
 
   fontPackages = with pkgs; [
     font-awesome-ttf
-    (iosevka.override { design = [ "term" "ss08" ]; set = "term-ss08"; })
+    (iosevka.override { privateBuildPlan = { family = "Iosevka Term"; design = [ "term" "ss08" ]; }; set = "term-ss08"; })
     roboto
   ];
 
