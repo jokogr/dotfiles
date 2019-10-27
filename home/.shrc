@@ -18,7 +18,7 @@ if [ -n "$PS1" ]; then
   LESS="FRX#10"
 
   if [[ -n ${commands[exa]} ]]; then
-    alias ls='exa'
+    alias ls='exa --classify --icons'
     alias tree='exa -T'
     alias ll='exa -l'
   else
