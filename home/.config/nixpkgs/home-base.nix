@@ -43,7 +43,7 @@ let
     gnome3.vinagre
     gwenview
     gvfs
-    jetbrains.idea-ultimate
+    jetbrains.idea-community
     kdeApplications.spectacle
     kdiff3
     keepassx2-http
