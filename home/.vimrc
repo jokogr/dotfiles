@@ -175,6 +175,8 @@ inoremap <C-d>     <C-^>
 "cmap w!! w !sudo tee > /dev/null %
 cmap w!! w suda://%
 
+autocmd FileType groovy setlocal shiftwidth=4 tabstop=8 softtabstop=4 expandtab
+
 if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
