@@ -162,6 +162,27 @@ in {
     };
   };
 
+  xdg.mimeApps = pkgs.lib.mkIf sysconfig.custom.gui.enable {
+    enable = true;
+    associations.added = {
+      "inode/directory" = [ "org.kde.gwenview.desktop" ];
+      "text/html" = [ "firefox.desktop" ];
+      "x-scheme-handler/chrome" = [ "firefox.desktop" ];
+      "x-scheme-handler/http" = [ "firefox.desktop" ];
+      "x-scheme-handler/https" = [ "firefox.desktop" ];
+    };
+    defaultApplications = {
+      "application/pdf" = [ "org.kde.okular.desktop" ];
+      "image/jpeg" = [ "org.kde.gwenview.desktop" ];
+      "image/png" = [ "org.kde.gwenview.desktop" ];
+      "inode/directory" = [ "pcmanfm.desktop" ];
+      "text/html" = [ "firefox.desktop" ];
+      "x-scheme-handler/chrome" = [ "firefox.desktop" ];
+      "x-scheme-handler/http" = [ "firefox.desktop" ];
+      "x-scheme-handler/https" = [ "firefox.desktop" ];
+    };
+  };
+
   home.extraProfileCommands = ''
     if [[ -d "$out/share/applications" ]] ; then
       ${pkgs.desktop-file-utils}/bin/update-desktop-database $out/share/applications
